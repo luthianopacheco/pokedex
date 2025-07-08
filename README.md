@@ -1,4 +1,4 @@
-# Pokedex
+# Pokédex
 
 Um novo projeto Pokédex para estudo em Flutter.
 

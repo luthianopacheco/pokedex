@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pokedex/core/routes/routes.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,8 +7,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return MaterialApp.router(
-      title: 'Pokedex',
+      title: 'Pokédex',
       debugShowCheckedModeBanner: false,
       routerConfig: Routes.appRoutes,
     );

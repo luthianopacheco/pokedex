@@ -59,7 +59,7 @@ class MobileLayout extends StatelessWidget {
       BottomNavigationBarItem(
         activeIcon: _buildImageAsset(imageName: 'pokedex-icon-selected.png'),
         icon: _buildImageAsset(imageName: 'pokedex-icon-unselected.png'),
-        label: 'Pokedéx',
+        label: 'Pokédex',
       ),
       BottomNavigationBarItem(
         activeIcon: _buildImageAsset(imageName: 'region-icon-selected.png'),
