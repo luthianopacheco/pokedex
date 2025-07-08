@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
         const AssetImage('assets/splash/splash-pokedex.png'),
         context,
       );
-      _controller.start(() => context.go('/home'));
+      _controller.start(() => context.go('/onboarding'));
     });
   }
 

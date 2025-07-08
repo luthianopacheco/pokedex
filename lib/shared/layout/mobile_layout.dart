@@ -34,21 +34,19 @@ class MobileLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final currentIndex = _currentIndex(location);
-    return SafeArea(
-      child: Scaffold(
-        body: mobileBody ?? const SizedBox(),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-          ),
-          child: BottomNavigationBar(
-            currentIndex: currentIndex,
-            selectedItemColor: Color(0xff173EA5),
-            onTap: (index) => _onItemTapped(context, index),
-            items: _items(),
-          ),
+    return Scaffold(
+      body: mobileBody ?? const SizedBox(),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          selectedItemColor: Color(0xff173EA5),
+          onTap: (index) => _onItemTapped(context, index),
+          items: _items(),
         ),
       ),
     );

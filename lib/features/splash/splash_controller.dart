@@ -33,7 +33,7 @@ class SplashController {
 
   void start(VoidCallback onComplete) {
     _controller.forward();
-    Timer(const Duration(milliseconds: 1400), onComplete);
+    Timer(const Duration(milliseconds: 1000), onComplete);
   }
 
   void dispose() => _controller.dispose();
