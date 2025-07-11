@@ -11,6 +11,11 @@ class AppTheme {
           fontWeight: FontWeight.w500,
           color: Color(0xff000000),
         ),
+        titleLarge: GoogleFonts.poppins(
+          fontSize: 21,
+          fontWeight: FontWeight.w600,
+          color: Color(0xff000000),
+        ),
         bodyLarge: GoogleFonts.poppins(
           fontSize: 18,
           fontWeight: FontWeight.w500,
@@ -22,12 +27,32 @@ class AppTheme {
           fontWeight: FontWeight.w500,
           color: Color(0xffFFFFFF),
         ),
+        labelSmall: GoogleFonts.poppins(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: Color(0xff000000),
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           backgroundColor: const WidgetStatePropertyAll(Color(0xff173EA5)),
           textStyle: WidgetStatePropertyAll(
             GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: WidgetStatePropertyAll(
+            GoogleFonts.poppins(
+              color: const Color(0xff173EA5),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          foregroundColor: WidgetStatePropertyAll(const Color(0xff173EA5)),
+          side: WidgetStatePropertyAll(
+            BorderSide(width: 2, color: const Color(0xff173EA5)),
           ),
         ),
       ),

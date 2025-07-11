@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CustomFilledButton extends StatelessWidget {
-  final String? label;
+class CustomButton extends StatelessWidget {
   final Widget? textWidget;
+  final bool isFilled;
   final Function() onPressed;
-  const CustomFilledButton({
+  const CustomButton({
     super.key,
-    this.label,
     this.textWidget,
     required this.onPressed,
+    this.isFilled = true,
   });
 
   @override
@@ -16,10 +16,9 @@ class CustomFilledButton extends StatelessWidget {
     return SizedBox(
       height: 58,
       width: double.infinity,
-      child: FilledButton(
-        onPressed: onPressed,
-        child: label != null ? Text(label!) : textWidget,
-      ),
+      child: isFilled
+          ? FilledButton(onPressed: onPressed, child: textWidget)
+          : OutlinedButton(onPressed: onPressed, child: textWidget),
     );
   }
 }

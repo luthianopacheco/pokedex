@@ -55,29 +55,33 @@ class MobileLayout extends StatelessWidget {
   List<BottomNavigationBarItem> _items() {
     return [
       BottomNavigationBarItem(
-        activeIcon: _buildImageAsset(imageName: 'pokedex-icon-selected.png'),
-        icon: _buildImageAsset(imageName: 'pokedex-icon-unselected.png'),
+        activeIcon: _buildImageAsset(imageName: 'pokedex-selected.png'),
+        icon: _buildImageAsset(imageName: 'pokedex-unselected.png'),
         label: 'Pokédex',
       ),
       BottomNavigationBarItem(
-        activeIcon: _buildImageAsset(imageName: 'region-icon-selected.png'),
-        icon: _buildImageAsset(imageName: 'region-icon-unselected.png'),
+        activeIcon: _buildImageAsset(imageName: 'region-selected.png'),
+        icon: _buildImageAsset(imageName: 'region-unselected.png'),
         label: 'Regiões',
       ),
       BottomNavigationBarItem(
-        activeIcon: _buildImageAsset(imageName: 'favorite-icon-selected.png'),
-        icon: _buildImageAsset(imageName: 'favorite-icon-unselected.png'),
+        activeIcon: _buildImageAsset(imageName: 'fav-selected.png'),
+        icon: _buildImageAsset(imageName: 'fav-unselected.png'),
         label: 'Favoritos',
       ),
       BottomNavigationBarItem(
-        activeIcon: _buildImageAsset(imageName: 'profile-icon-selected.png'),
-        icon: _buildImageAsset(imageName: 'profile-icon-unselected.png'),
+        activeIcon: _buildImageAsset(imageName: 'profile-selected.png'),
+        icon: _buildImageAsset(imageName: 'profile-unselected.png'),
         label: 'Perfil',
       ),
     ];
   }
 
   Widget _buildImageAsset({required String imageName}) {
-    return Image.asset('assets/nav_icons/$imageName', width: 24, height: 24);
+    return Image.asset(
+      'assets/icons/nav_icons/$imageName',
+      width: 24,
+      height: 24,
+    );
   }
 }

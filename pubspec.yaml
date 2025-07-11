@@ -15,6 +15,9 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
+  # http
+  dio: ^5.8.0+1
+
   # state management
   mobx: ^2.5.0
   flutter_mobx: ^2.3.0
@@ -34,6 +37,9 @@ dependencies:
   google_fonts: ^6.2.1
   smooth_page_indicator: ^1.2.1
 
+  # util
+  collection: ^1.19.1
+
 # dev packages
 dev_dependencies:
   flutter_test:
@@ -49,8 +55,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/authentication_images/
-    - assets/general_icons/
-    - assets/nav_icons/
-    - assets/onboarding_images/
+    - assets/icons/general_icons/
+    - assets/icons/nav_icons/
+    - assets/icons/pokemon_types/
+    - assets/images/authentication_images/
+    - assets/images/general_images/
+    - assets/images/onboarding_images/
     - assets/splash/
+    - assets/app_prints/

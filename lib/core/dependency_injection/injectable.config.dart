@@ -12,8 +12,10 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../features/home/onboarding/controllers/onboarding_controller.dart'
-    as _i879;
+import '../../features/home/controllers/pokemon_controller.dart' as _i201;
+import '../../features/home/repositories/pokemon_repository.dart' as _i691;
+import '../../features/onboarding/controllers/onboarding_controller.dart'
+    as _i426;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
@@ -22,6 +24,10 @@ _i174.GetIt $initGetIt(
   _i526.EnvironmentFilter? environmentFilter,
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
-  gh.factory<_i879.OnboardingController>(() => _i879.OnboardingController());
+  gh.factory<_i426.OnboardingController>(() => _i426.OnboardingController());
+  gh.lazySingleton<_i691.PokemonRepository>(() => _i691.PokemonRepository());
+  gh.factory<_i201.PokemonController>(
+    () => _i201.PokemonController(gh<_i691.PokemonRepository>()),
+  );
   return getIt;
 }
