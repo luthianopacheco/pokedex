@@ -16,16 +16,28 @@ class PokemonList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        final isSearching = controller.searchPokemon.isNotEmpty;
+        final plus = controller.isLoadingMore ? 1 : 0;
+        final list = isSearching
+            ? controller.searchResults
+            : controller.pokemons;
+
         return Expanded(
           child: ListView.builder(
             controller: scrollController,
             padding: const EdgeInsets.only(bottom: 80),
-            itemCount:
-                controller.pokemons.length + (controller.isLoadingMore ? 1 : 0),
+            itemCount: list.length + plus,
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              if (index < controller.pokemons.length) {
-                return PokemonCard(pokemon: controller.pokemons[index]);
+              if (isSearching && list.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text('Nenhum Pokémon encontrado'),
+                  ),
+                );
+              } else if (index < list.length) {
+                return PokemonCard(pokemon: list[index]);
               } else {
                 return const Padding(
                   padding: EdgeInsets.all(16),

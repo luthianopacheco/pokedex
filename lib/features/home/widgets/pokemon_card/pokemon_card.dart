@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/features/home/models/pokemon.dart';
+import 'package:pokedex/features/home/models/pokemon_basics.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/image_content_card.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/text_content_card.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class PokemonCard extends StatelessWidget {
-  final Pokemon pokemon;
+  final PokemonBasics pokemon;
   const PokemonCard({super.key, required this.pokemon});
 
   @override
@@ -25,7 +25,7 @@ class PokemonCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         color: PokemonTypeUtils.getColor(
-          pokemon.types.first,
+          pokemon.types?.first,
         ).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),

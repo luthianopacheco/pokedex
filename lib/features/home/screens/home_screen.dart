@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
 import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
 import 'package:pokedex/shared/widgets/textfields/custom_search_field.dart';
@@ -28,10 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
         final position = _scrollController.position;
         final threshold = position.maxScrollExtent - 200;
 
-        if (position.pixels >= threshold) {
-          _controller.handleScrollTrigger(() {
+        if (position.pixels >= threshold && !_controller.isLoadingMore) {
+          if (_controller.searchPokemon.isNotEmpty) {
+            _controller.getMoreSearchResults();
+          } else {
             _controller.getPokemons();
-          });
+          }
         }
       });
   }
@@ -52,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBarPreferredSize: 32,
             bottomContent: CustomSearchField(
               hintText: 'Procurar Pokémon',
-              onChanged: (value) {},
+              onChanged: (value) => _controller.setSearchPokemon(value),
             ),
           ),
           body: Padding(
@@ -62,18 +65,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 10),
                 FilterButtons(controller: _controller),
                 const SizedBox(height: 10),
-                AsyncStatusHandler(
-                  isLoading: _controller.isLoading,
-                  hasError: _controller.hasError,
-                  errorMessage: _controller.errorMessage,
-                  onRetry: () {
-                    _controller.clearError();
-                    _controller.getPokemons();
+                Observer(
+                  builder: (context) {
+                    return AsyncStatusHandler(
+                      isLoading: _controller.isLoading,
+                      hasError: _controller.hasError,
+                      errorMessage: _controller.errorMessage,
+                      onRetry: () {
+                        _controller.clearError();
+                        _controller.getPokemons();
+                      },
+                      child: PokemonList(
+                        controller: _controller,
+                        scrollController: _scrollController,
+                      ),
+                    );
                   },
-                  child: PokemonList(
-                    controller: _controller,
-                    scrollController: _scrollController,
-                  ),
                 ),
               ],
             ),

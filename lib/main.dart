@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/app.dart';
-import 'package:pokedex/core/dependency_injection/injectable.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:pokedex/core/config/init_configs.dart';
 
-void main() {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
-  setUrlStrategy(PathUrlStrategy());
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+void main() async {
+  await InitConfigs.run();
   runApp(const MyApp());
 }

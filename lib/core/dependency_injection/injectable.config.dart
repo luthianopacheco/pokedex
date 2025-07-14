@@ -1,4 +1,3 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -14,6 +13,7 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/home/controllers/pokemon_controller.dart' as _i201;
 import '../../features/home/repositories/pokemon_repository.dart' as _i691;
+import '../../features/home/services/pokemon_cache_service.dart' as _i160;
 import '../../features/onboarding/controllers/onboarding_controller.dart'
     as _i426;
 
@@ -23,11 +23,17 @@ _i174.GetIt $initGetIt(
   String? environment,
   _i526.EnvironmentFilter? environmentFilter,
 }) {
-  final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
-  gh.factory<_i426.OnboardingController>(() => _i426.OnboardingController());
-  gh.lazySingleton<_i691.PokemonRepository>(() => _i691.PokemonRepository());
-  gh.factory<_i201.PokemonController>(
-    () => _i201.PokemonController(gh<_i691.PokemonRepository>()),
+  final gh = _i526.GetItHelper(
+    getIt,
+    environment,
+    environmentFilter,
   );
+  gh.factory<_i426.OnboardingController>(() => _i426.OnboardingController());
+  gh.lazySingleton<_i160.PokemonCacheService>(
+      () => _i160.PokemonCacheService());
+  gh.lazySingleton<_i691.PokemonRepository>(
+      () => _i691.PokemonRepository(gh<_i160.PokemonCacheService>()));
+  gh.lazySingleton<_i201.PokemonController>(
+      () => _i201.PokemonController(gh<_i691.PokemonRepository>()));
   return getIt;
 }

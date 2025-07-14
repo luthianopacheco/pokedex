@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/features/home/models/pokemon.dart';
+import 'package:pokedex/features/home/models/pokemon_basics.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class ImageContentCard extends StatelessWidget {
-  final Pokemon pokemon;
+  final PokemonBasics pokemon;
   const ImageContentCard({super.key, required this.pokemon});
 
   @override
@@ -22,7 +22,7 @@ class ImageContentCard extends StatelessWidget {
       width: 126,
       height: 102,
       decoration: BoxDecoration(
-        color: PokemonTypeUtils.getColor(pokemon.types.first.toLowerCase()),
+        color: PokemonTypeUtils.getColor(pokemon.types?.first.toLowerCase()),
         borderRadius: BorderRadius.circular(16),
       ),
       child: child,
@@ -38,13 +38,13 @@ class ImageContentCard extends StatelessWidget {
             begin: Alignment.bottomRight,
             end: Alignment.topLeft,
             colors: [
-              PokemonTypeUtils.getColor(pokemon.types.first.toLowerCase()),
+              PokemonTypeUtils.getColor(pokemon.types?.first.toLowerCase()),
               Colors.white,
             ],
           ).createShader(bounds),
           blendMode: BlendMode.srcATop,
           child: Image.asset(
-            PokemonTypeUtils.getTypeImage(pokemon.types.first),
+            PokemonTypeUtils.getTypeImage(pokemon.types?.first),
           ),
         ),
       ),
@@ -52,7 +52,7 @@ class ImageContentCard extends StatelessWidget {
   }
 
   Widget _pokemonImage() {
-    return Center(child: Image.network(pokemon.image));
+    return Center(child: Image.network(pokemon.imageUrl ?? ''));
   }
 
   Widget _favIconButton() {

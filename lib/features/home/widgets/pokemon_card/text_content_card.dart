@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/features/home/models/pokemon.dart';
+import 'package:pokedex/features/home/models/pokemon_basics.dart';
 import 'package:pokedex/shared/utils/color/color_utils.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
+import 'package:pokedex/shared/utils/text/string_utils.dart';
 
 class TextContentCard extends StatelessWidget {
-  final Pokemon pokemon;
+  final PokemonBasics pokemon;
   const TextContentCard({super.key, required this.pokemon});
 
   @override
@@ -36,7 +37,7 @@ class TextContentCard extends StatelessWidget {
 
   Widget _pokemonName(BuildContext context) {
     return Text(
-      pokemon.name,
+      pokemon.name.capitalizeFirst(),
       style: Theme.of(
         context,
       ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -49,9 +50,11 @@ class TextContentCard extends StatelessWidget {
       child: Wrap(
         spacing: 5,
         runSpacing: 5,
-        children: pokemon.types.map((type) {
-          return buildTypes(context, type);
-        }).toList(),
+        children:
+            pokemon.types?.map((type) {
+              return buildTypes(context, type);
+            }).toList() ??
+            [],
       ),
     );
   }
@@ -80,7 +83,7 @@ class TextContentCard extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            PokemonTypeUtils.getLabel(type),
+            PokemonTypeUtils.getLabel(type) ?? '',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: color.contrastColor,

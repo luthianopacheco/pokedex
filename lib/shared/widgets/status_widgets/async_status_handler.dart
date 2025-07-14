@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 
 class AsyncStatusHandler extends StatelessWidget {
@@ -20,34 +19,33 @@ class AsyncStatusHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        if (isLoading) {
-          return const Expanded(
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
+    if (isLoading) {
+      return const Expanded(child: Center(child: CircularProgressIndicator()));
+    }
 
-        if (hasError) {
-          return Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildErrorMessge(context, errorMessage ?? 'Erro inesperado'),
-                const SizedBox(height: 20),
-                CustomButton(
+    if (hasError) {
+      return Expanded(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildErrorMessge(context, errorMessage ?? 'Erro inesperado'),
+              const SizedBox(height: 20),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 300),
+                child: CustomButton(
                   isFilled: false,
                   onPressed: onRetry,
                   textWidget: const Text('Tentar novamente'),
                 ),
-              ],
-            ),
-          );
-        }
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
-        return child;
-      },
-    );
+    return child;
   }
 
   Widget _buildErrorMessge(BuildContext context, String message) {

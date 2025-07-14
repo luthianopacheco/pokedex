@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomSearchField extends StatelessWidget {
   final String hintText;
-  final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   const CustomSearchField({
     super.key,
     required this.hintText,
     required this.onChanged,
-    this.controller,
   });
 
   @override
@@ -38,7 +36,7 @@ class CustomSearchField extends StatelessWidget {
           ),
           isDense: true,
         ),
-        controller: controller,
+        textCapitalization: TextCapitalization.words,
         onChanged: onChanged,
       ),
     );
