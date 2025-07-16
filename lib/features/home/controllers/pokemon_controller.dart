@@ -7,6 +7,7 @@ import 'package:pokedex/features/home/models/pokemon_type.dart';
 import 'package:pokedex/features/home/models/order_options.dart';
 import 'package:pokedex/features/home/models/selector_item.dart';
 import 'package:pokedex/features/home/repositories/pokemon_repository.dart';
+import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 part 'pokemon_controller.g.dart';
 
@@ -16,27 +17,25 @@ class PokemonController = PokemonControllerBase with _$PokemonController;
 abstract class PokemonControllerBase with Store {
   final PokemonRepository _repository;
 
-  PokemonControllerBase(this._repository) {
-    pokemonsType = ObservableList.of(pokemonTypeList);
-    orderOptions = ObservableList.of(orderOptionsList);
-    selectedType = pokemonsType.first;
-    selectedOrder = orderOptions.first;
-  }
+  PokemonControllerBase(this._repository);
+
+  final int _pageSize = 20;
+  int _currentPage = 0;
+  Timer? _lastTyping;
+  List<PokemonType> pokemonTypes = [];
+  List<OrderOptions> orderOptions = [];
 
   @observable
   ObservableList<PokemonBasics> pokemons = ObservableList<PokemonBasics>();
-
-  @observable
-  ObservableList<PokemonType> pokemonsType = ObservableList<PokemonType>();
-
-  @observable
-  ObservableList<OrderOptions> orderOptions = ObservableList<OrderOptions>();
 
   @observable
   PokemonType? selectedType;
 
   @observable
   OrderOptions? selectedOrder;
+
+  @observable
+  String searchPokemon = '';
 
   @observable
   bool isLoading = false;
@@ -48,46 +47,51 @@ abstract class PokemonControllerBase with Store {
   String? errorMessage;
 
   @observable
-  String searchPokemon = '';
-
-  @observable
-  ObservableList<PokemonBasics> searchResults = ObservableList<PokemonBasics>();
-
-  Timer? _lastTyping;
-
-  @observable
   bool _isInitialized = false;
+
+  @observable
+  List<int> _filteredIds = [];
+
+  @observable
+  List<String> _filteredNames = [];
 
   @computed
   bool get hasError => errorMessage != null && errorMessage!.isNotEmpty;
+
+  bool get _isTypeFilterActive =>
+      selectedType != null &&
+      selectedType!.type != 'all' &&
+      _filteredNames.isNotEmpty;
 
   @action
   Future<void> init() async {
     try {
       isLoading = true;
-      errorMessage = null;
+      clearError();
+
+      await _loadFilters();
 
       if (!_isInitialized) {
         await _repository.getAndCachePokemonBasics();
         _isInitialized = true;
       }
 
-      List<PokemonBasics> result = await _repository
-          .getPaginatedPokemonsFromCache(offset: 0, limit: 20);
+      await _updateFilteredIds();
 
-      if (result.isEmpty) {
-        final all = await _repository.getAllFromCache();
-        final firstBatch = all.take(20).toList();
+      final initialIds = _filteredIds.take(_pageSize).toList();
 
-        await _repository.getAndCacheMissingDetails(firstBatch);
+      List<PokemonBasics> result = await _repository.getPokemonsByIdsFromCache(
+        initialIds,
+      );
 
-        result = await _repository.getPaginatedPokemonsFromCache(
-          offset: 0,
-          limit: 20,
-        );
+      final needFetching = result.where((p) => !p.isFetched);
+      if (needFetching.isNotEmpty) {
+        await _repository.getAndCacheMissingDetails(needFetching.toList());
+        result = await _repository.getPokemonsByIdsFromCache(initialIds);
       }
 
       pokemons = ObservableList.of(result);
+      _currentPage = 0;
     } catch (e) {
       errorMessage = e.toString().split('Exception:').last;
     } finally {
@@ -96,46 +100,20 @@ abstract class PokemonControllerBase with Store {
   }
 
   @action
-  Future<void> getPokemons() async {
+  Future<void> _loadFilters() async {
     try {
-      isLoadingMore = true;
-      errorMessage = null;
-
-      final allPokemons = await _repository.getAllFromCache();
-
-      if (pokemons.length >= allPokemons.length) return;
-
-      List<PokemonBasics> nextPokemons = allPokemons
-          .where((e) => !pokemons.any((p) => p.id == e.id))
-          .skip(0)
-          .take(20)
-          .toList();
-
-      if (nextPokemons.isEmpty) return;
-
-      final needFetching = nextPokemons.any((e) => !e.isFetched);
-
-      if (needFetching) {
-        await _repository.getAndCacheMissingDetails(nextPokemons);
-        nextPokemons = await _repository.getPaginatedPokemonsFromCache(
-          offset: pokemons.length,
-          limit: 20,
-        );
-      } else {
-        await Future.delayed(const Duration(milliseconds: 500));
-      }
-
-      pokemons.addAll(nextPokemons);
+      pokemonTypes = ObservableList.of(
+        await _repository.loadTypeFilterOptions(),
+      );
+      orderOptions = ObservableList.of(
+        await _repository.loadOrderFilterOptions(),
+      );
+      selectedType = pokemonTypes.first;
+      selectedOrder = orderOptions.first;
+      PokemonTypeUtils.setTypes(pokemonTypes);
     } catch (e) {
       errorMessage = e.toString().split('Exception:').last;
-    } finally {
-      isLoadingMore = false;
     }
-  }
-
-  @action
-  void clearError() {
-    errorMessage = null;
   }
 
   @action
@@ -143,17 +121,10 @@ abstract class PokemonControllerBase with Store {
     _lastTyping?.cancel();
     isLoading = true;
 
-    _lastTyping = Timer(const Duration(seconds: 1), () async {
+    _lastTyping = Timer(const Duration(milliseconds: 800), () async {
       try {
         searchPokemon = value;
-        searchResults.clear();
-
-        if (searchPokemon.trim().isEmpty) {
-          isLoading = false;
-          return;
-        }
-
-        await getMoreSearchResults();
+        await _refreshList();
       } catch (e) {
         errorMessage = e.toString().split('Exception:').last;
       } finally {
@@ -163,51 +134,108 @@ abstract class PokemonControllerBase with Store {
   }
 
   @action
-  Future<void> getMoreSearchResults() async {
+  Future<void> setSelectedType(SelectorItem item) async {
     try {
-      isLoadingMore = true;
-      final all = await _repository.getAllFromCache();
+      isLoading = true;
+      selectedType = item as PokemonType;
+      _filteredNames.clear();
 
-      final filtered = all.where((p) {
-        final name = p.name.toLowerCase();
-        final id = p.id.toString();
-        final search = searchPokemon.toLowerCase();
-        return name.contains(search) || id.contains(search);
-      }).toList();
-
-      List<PokemonBasics> nextPokemons = filtered
-          .skip(searchResults.length)
-          .take(20)
-          .toList();
-
-      if (nextPokemons.isEmpty) return;
-
-      final needFetching = nextPokemons.any((e) => !e.isFetched);
-
-      if (needFetching) {
-        await _repository.getAndCacheMissingDetails(nextPokemons);
-        nextPokemons = await _repository.getPokemonsByIdsFromCache(
-          nextPokemons.map((e) => e.id).toList(),
-        );
-      } else {
-        await Future.delayed(const Duration(milliseconds: 500));
+      final type = selectedType?.type;
+      if (type != null && type != 'all') {
+        _filteredNames = await _repository.getPokemonNamesByType(type);
       }
 
-      searchResults.addAll(nextPokemons);
+      await _refreshList();
     } catch (e) {
       errorMessage = e.toString().split('Exception:').last;
     } finally {
-      isLoadingMore = false;
+      isLoading = false;
     }
   }
 
   @action
-  void setSelectedType(SelectorItem item) {
-    selectedType = item as PokemonType;
+  Future<void> setSelectedOrder(SelectorItem item) async {
+    try {
+      isLoading = true;
+      selectedOrder = item as OrderOptions;
+      await _refreshList();
+    } catch (e) {
+      errorMessage = e.toString().split('Exception:').last;
+    } finally {
+      isLoading = false;
+    }
   }
 
   @action
-  void setSelectedOrder(SelectorItem item) {
-    selectedOrder = item as OrderOptions;
+  Future<void> _refreshList() async {
+    try {
+      _currentPage = 0;
+      pokemons.clear();
+      await _updateFilteredIds();
+      await _loadNextPage();
+    } catch (e) {
+      errorMessage = e.toString().split('Exception:').last;
+    }
+  }
+
+  @action
+  Future<void> loadMorePokemons() async {
+    if (isLoadingMore || _currentPage * _pageSize >= _filteredIds.length) {
+      return;
+    }
+
+    try {
+      isLoadingMore = true;
+      _currentPage++;
+      await _loadNextPage();
+      isLoadingMore = false;
+    } catch (e) {
+      errorMessage = e.toString().split('Exception:').last;
+    }
+  }
+
+  @action
+  Future<void> _updateFilteredIds() async {
+    try {
+      _filteredIds = await _repository.getFilteredPokemonIds(
+        search: searchPokemon,
+        type: selectedType?.type == 'all' ? null : selectedType?.type,
+        order: selectedOrder?.type,
+        namesOnly: _isTypeFilterActive ? _filteredNames : null,
+      );
+    } catch (e) {
+      errorMessage = e.toString().split('Exception:').last;
+    }
+  }
+
+  @action
+  Future<void> _loadNextPage() async {
+    try {
+      final start = _currentPage * _pageSize;
+
+      final ids = _filteredIds.skip(start).take(_pageSize).toList();
+      if (ids.isEmpty) return;
+
+      List<PokemonBasics> result = await _repository.getPokemonsByIdsFromCache(
+        ids,
+      );
+
+      final needFetching = result.where((p) => !p.isFetched);
+      if (needFetching.isNotEmpty) {
+        await _repository.getAndCacheMissingDetails(needFetching.toList());
+        final updated = await _repository.getPokemonsByIdsFromCache(ids);
+        pokemons.addAll(updated);
+      } else {
+        await Future.delayed(const Duration(milliseconds: 400));
+        pokemons.addAll(result);
+      }
+    } catch (e) {
+      errorMessage = e.toString().split('Exception:').last;
+    }
+  }
+
+  @action
+  void clearError() {
+    errorMessage = null;
   }
 }

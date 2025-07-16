@@ -17,7 +17,7 @@ class FilterButtons extends StatelessWidget {
             builder: (context) {
               return SelectorButton(
                 modalTitle: 'Selecione o tipo',
-                items: controller.pokemonsType,
+                items: controller.pokemonTypes,
                 selectedItem: controller.selectedType,
                 onSelected: controller.setSelectedType,
               );

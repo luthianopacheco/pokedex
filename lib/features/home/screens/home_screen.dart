@@ -30,11 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final threshold = position.maxScrollExtent - 200;
 
         if (position.pixels >= threshold && !_controller.isLoadingMore) {
-          if (_controller.searchPokemon.isNotEmpty) {
-            _controller.getMoreSearchResults();
-          } else {
-            _controller.getPokemons();
-          }
+          _controller.loadMorePokemons();
         }
       });
   }
@@ -73,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       errorMessage: _controller.errorMessage,
                       onRetry: () {
                         _controller.clearError();
-                        _controller.getPokemons();
+                        _controller.init();
                       },
                       child: PokemonList(
                         controller: _controller,

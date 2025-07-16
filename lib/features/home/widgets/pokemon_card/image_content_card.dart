@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/home/models/pokemon_basics.dart';
+import 'package:pokedex/shared/utils/color/color_utils.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class ImageContentCard extends StatelessWidget {
@@ -52,7 +53,19 @@ class ImageContentCard extends StatelessWidget {
   }
 
   Widget _pokemonImage() {
-    return Center(child: Image.network(pokemon.imageUrl ?? ''));
+    return Center(
+      child: Image.network(
+        pokemon.imageUrl ?? '',
+        errorBuilder: (context, error, stackTrace) => Text(
+          'Indisponível',
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: PokemonTypeUtils.getColor(
+              pokemon.types?.first,
+            ).contrastColor,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _favIconButton() {

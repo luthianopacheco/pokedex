@@ -60,7 +60,7 @@ class SelectorButton extends StatelessWidget {
             const SizedBox(height: 20),
             Text(modalTitle, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 20),
-            Expanded(
+            Flexible(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 itemCount: items.length,

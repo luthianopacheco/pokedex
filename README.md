@@ -1,10 +1,11 @@
-# <img src="assets/splash/launcher-icon.png" alt="" width="30"/> Pokedex Flutter App
+# <img src="assets/splash/launcher-icon.png" alt="" width="30"/> Pokedex
 
-App de estudo em desenvolvimento criado com Flutter usando arquitetura modular, cache local, paginação e integração com a PokéAPI.
+App de estudo em desenvolvimento criado com Flutter usando arquitetura modular, cache local, paginação e integração com a PokéAPI [PokéAPI](https://https://pokeapi.co/).
 
 ## ✨ Funcionalidades
 
 - 🔍 Busca por nome ou ID com delay de 1 segundo após o último caracter digitado
+- 🎯 Filtragem da lista por tipo de Pokémon e/ou ordenação
 - ⬇️ Scroll infinito com carregamento incremental a cada 20 Pokémons
 - 📦 Cache de dados local para evitar requisições excessivas
 - 🔄 Requisições automáticas para detalhes (imagem e tipos) quando não estiver salvo em cache
@@ -64,11 +65,10 @@ lib/
 - **Hive** para persistência local (cache)
 - **GoRouter** para navegação
 - **PokéAPI** como fonte de dados
-- **ScrollController** para scroll infinito
 
 ## 🧠 Principais Lógicas
 
-- 🔄 A API principal (https://pokeapi.co/api/v2/pokemon) é requisitada apenas uma vez ao iniciar o app pela primeira vez, para cache local.
+- 🔄 A API principal (https://pokeapi.co/api/v2/pokemon) é requisitada apenas uma vez ao iniciar o app, para cache local.
 - 📥 Detalhes como imagem e tipo são baixados da API somente quando exibidos ou pesquisados, se não estiverem no cache.
 - 🧠 A busca é feita com delay de digitação para evitar chamadas em excesso.
 - 📱 O carregamento incremental é controlado com ScrollController + variavel de carregamento.
@@ -110,7 +110,7 @@ flutter run
 
  ✅ Cache dos pokémons
 
- ⬜ Filtros por tipo e ordem
+ ✅ Filtros por tipo e ordem
 
  ⬜ Tela de detalhes do Pokémon
 

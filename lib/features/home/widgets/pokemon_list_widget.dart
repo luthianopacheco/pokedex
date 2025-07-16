@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/pokemon_card.dart';
+import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class PokemonList extends StatelessWidget {
   final PokemonController controller;
@@ -16,28 +17,30 @@ class PokemonList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final isSearching = controller.searchPokemon.isNotEmpty;
+        final pokemons = controller.pokemons;
         final plus = controller.isLoadingMore ? 1 : 0;
-        final list = isSearching
-            ? controller.searchResults
-            : controller.pokemons;
+
+        if (pokemons.isEmpty && !controller.isLoading) {
+          final selectedType = controller.selectedType?.type ?? 'all';
+          final message = selectedType != 'all'
+              ? ' para o tipo "${PokemonTypeUtils.getLabel(selectedType)}"'
+              : '';
+
+          return Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: Text('Nenhum Pokémon encontrado$message')),
+          );
+        }
 
         return Expanded(
           child: ListView.builder(
             controller: scrollController,
             padding: const EdgeInsets.only(bottom: 80),
-            itemCount: list.length + plus,
+            itemCount: pokemons.length + plus,
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              if (isSearching && list.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text('Nenhum Pokémon encontrado'),
-                  ),
-                );
-              } else if (index < list.length) {
-                return PokemonCard(pokemon: list[index]);
+              if (index < pokemons.length) {
+                return PokemonCard(pokemon: pokemons[index]);
               } else {
                 return const Padding(
                   padding: EdgeInsets.all(16),

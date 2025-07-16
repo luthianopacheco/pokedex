@@ -3,9 +3,15 @@ import 'package:collection/collection.dart';
 import 'package:pokedex/features/home/models/pokemon_type.dart';
 
 class PokemonTypeUtils {
+  static List<PokemonType> _types = [];
+
+  static void setTypes(List<PokemonType> types) {
+    _types = types.toSet().toList();
+  }
+
   /// Busca o tipo (label e cor) correspondente a uma string do tipo
   static PokemonType? getType(String? type) {
-    return pokemonTypeList.firstWhereOrNull(
+    return _types.firstWhereOrNull(
       (t) => t.type.toLowerCase() == type?.toLowerCase(),
     );
   }

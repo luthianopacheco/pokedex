@@ -33,38 +33,6 @@ mixin _$PokemonController on PokemonControllerBase, Store {
     });
   }
 
-  late final _$pokemonsTypeAtom =
-      Atom(name: 'PokemonControllerBase.pokemonsType', context: context);
-
-  @override
-  ObservableList<PokemonType> get pokemonsType {
-    _$pokemonsTypeAtom.reportRead();
-    return super.pokemonsType;
-  }
-
-  @override
-  set pokemonsType(ObservableList<PokemonType> value) {
-    _$pokemonsTypeAtom.reportWrite(value, super.pokemonsType, () {
-      super.pokemonsType = value;
-    });
-  }
-
-  late final _$orderOptionsAtom =
-      Atom(name: 'PokemonControllerBase.orderOptions', context: context);
-
-  @override
-  ObservableList<OrderOptions> get orderOptions {
-    _$orderOptionsAtom.reportRead();
-    return super.orderOptions;
-  }
-
-  @override
-  set orderOptions(ObservableList<OrderOptions> value) {
-    _$orderOptionsAtom.reportWrite(value, super.orderOptions, () {
-      super.orderOptions = value;
-    });
-  }
-
   late final _$selectedTypeAtom =
       Atom(name: 'PokemonControllerBase.selectedType', context: context);
 
@@ -94,6 +62,22 @@ mixin _$PokemonController on PokemonControllerBase, Store {
   set selectedOrder(OrderOptions? value) {
     _$selectedOrderAtom.reportWrite(value, super.selectedOrder, () {
       super.selectedOrder = value;
+    });
+  }
+
+  late final _$searchPokemonAtom =
+      Atom(name: 'PokemonControllerBase.searchPokemon', context: context);
+
+  @override
+  String get searchPokemon {
+    _$searchPokemonAtom.reportRead();
+    return super.searchPokemon;
+  }
+
+  @override
+  set searchPokemon(String value) {
+    _$searchPokemonAtom.reportWrite(value, super.searchPokemon, () {
+      super.searchPokemon = value;
     });
   }
 
@@ -145,38 +129,6 @@ mixin _$PokemonController on PokemonControllerBase, Store {
     });
   }
 
-  late final _$searchPokemonAtom =
-      Atom(name: 'PokemonControllerBase.searchPokemon', context: context);
-
-  @override
-  String get searchPokemon {
-    _$searchPokemonAtom.reportRead();
-    return super.searchPokemon;
-  }
-
-  @override
-  set searchPokemon(String value) {
-    _$searchPokemonAtom.reportWrite(value, super.searchPokemon, () {
-      super.searchPokemon = value;
-    });
-  }
-
-  late final _$searchResultsAtom =
-      Atom(name: 'PokemonControllerBase.searchResults', context: context);
-
-  @override
-  ObservableList<PokemonBasics> get searchResults {
-    _$searchResultsAtom.reportRead();
-    return super.searchResults;
-  }
-
-  @override
-  set searchResults(ObservableList<PokemonBasics> value) {
-    _$searchResultsAtom.reportWrite(value, super.searchResults, () {
-      super.searchResults = value;
-    });
-  }
-
   late final _$_isInitializedAtom =
       Atom(name: 'PokemonControllerBase._isInitialized', context: context);
 
@@ -193,6 +145,38 @@ mixin _$PokemonController on PokemonControllerBase, Store {
     });
   }
 
+  late final _$_filteredIdsAtom =
+      Atom(name: 'PokemonControllerBase._filteredIds', context: context);
+
+  @override
+  List<int> get _filteredIds {
+    _$_filteredIdsAtom.reportRead();
+    return super._filteredIds;
+  }
+
+  @override
+  set _filteredIds(List<int> value) {
+    _$_filteredIdsAtom.reportWrite(value, super._filteredIds, () {
+      super._filteredIds = value;
+    });
+  }
+
+  late final _$_filteredNamesAtom =
+      Atom(name: 'PokemonControllerBase._filteredNames', context: context);
+
+  @override
+  List<String> get _filteredNames {
+    _$_filteredNamesAtom.reportRead();
+    return super._filteredNames;
+  }
+
+  @override
+  set _filteredNames(List<String> value) {
+    _$_filteredNamesAtom.reportWrite(value, super._filteredNames, () {
+      super._filteredNames = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('PokemonControllerBase.init', context: context);
 
@@ -201,12 +185,12 @@ mixin _$PokemonController on PokemonControllerBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
-  late final _$getPokemonsAsyncAction =
-      AsyncAction('PokemonControllerBase.getPokemons', context: context);
+  late final _$_loadFiltersAsyncAction =
+      AsyncAction('PokemonControllerBase._loadFilters', context: context);
 
   @override
-  Future<void> getPokemons() {
-    return _$getPokemonsAsyncAction.run(() => super.getPokemons());
+  Future<void> _loadFilters() {
+    return _$_loadFiltersAsyncAction.run(() => super._loadFilters());
   }
 
   late final _$setSearchPokemonAsyncAction =
@@ -218,14 +202,54 @@ mixin _$PokemonController on PokemonControllerBase, Store {
         .run(() => super.setSearchPokemon(value));
   }
 
-  late final _$getMoreSearchResultsAsyncAction = AsyncAction(
-      'PokemonControllerBase.getMoreSearchResults',
-      context: context);
+  late final _$setSelectedTypeAsyncAction =
+      AsyncAction('PokemonControllerBase.setSelectedType', context: context);
 
   @override
-  Future<void> getMoreSearchResults() {
-    return _$getMoreSearchResultsAsyncAction
-        .run(() => super.getMoreSearchResults());
+  Future<void> setSelectedType(SelectorItem item) {
+    return _$setSelectedTypeAsyncAction.run(() => super.setSelectedType(item));
+  }
+
+  late final _$setSelectedOrderAsyncAction =
+      AsyncAction('PokemonControllerBase.setSelectedOrder', context: context);
+
+  @override
+  Future<void> setSelectedOrder(SelectorItem item) {
+    return _$setSelectedOrderAsyncAction
+        .run(() => super.setSelectedOrder(item));
+  }
+
+  late final _$_refreshListAsyncAction =
+      AsyncAction('PokemonControllerBase._refreshList', context: context);
+
+  @override
+  Future<void> _refreshList() {
+    return _$_refreshListAsyncAction.run(() => super._refreshList());
+  }
+
+  late final _$loadMorePokemonsAsyncAction =
+      AsyncAction('PokemonControllerBase.loadMorePokemons', context: context);
+
+  @override
+  Future<void> loadMorePokemons() {
+    return _$loadMorePokemonsAsyncAction.run(() => super.loadMorePokemons());
+  }
+
+  late final _$_updateFilteredIdsAsyncAction =
+      AsyncAction('PokemonControllerBase._updateFilteredIds', context: context);
+
+  @override
+  Future<void> _updateFilteredIds() {
+    return _$_updateFilteredIdsAsyncAction
+        .run(() => super._updateFilteredIds());
+  }
+
+  late final _$_loadNextPageAsyncAction =
+      AsyncAction('PokemonControllerBase._loadNextPage', context: context);
+
+  @override
+  Future<void> _loadNextPage() {
+    return _$_loadNextPageAsyncAction.run(() => super._loadNextPage());
   }
 
   late final _$PokemonControllerBaseActionController =
@@ -243,40 +267,15 @@ mixin _$PokemonController on PokemonControllerBase, Store {
   }
 
   @override
-  void setSelectedType(SelectorItem item) {
-    final _$actionInfo = _$PokemonControllerBaseActionController.startAction(
-        name: 'PokemonControllerBase.setSelectedType');
-    try {
-      return super.setSelectedType(item);
-    } finally {
-      _$PokemonControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setSelectedOrder(SelectorItem item) {
-    final _$actionInfo = _$PokemonControllerBaseActionController.startAction(
-        name: 'PokemonControllerBase.setSelectedOrder');
-    try {
-      return super.setSelectedOrder(item);
-    } finally {
-      _$PokemonControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 pokemons: ${pokemons},
-pokemonsType: ${pokemonsType},
-orderOptions: ${orderOptions},
 selectedType: ${selectedType},
 selectedOrder: ${selectedOrder},
+searchPokemon: ${searchPokemon},
 isLoading: ${isLoading},
 isLoadingMore: ${isLoadingMore},
 errorMessage: ${errorMessage},
-searchPokemon: ${searchPokemon},
-searchResults: ${searchResults},
 hasError: ${hasError}
     ''';
   }
