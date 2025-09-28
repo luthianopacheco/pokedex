@@ -21,13 +21,13 @@ mixin _$PokemonController on PokemonControllerBase, Store {
       Atom(name: 'PokemonControllerBase.pokemons', context: context);
 
   @override
-  ObservableList<PokemonBasics> get pokemons {
+  ObservableList<Pokemon> get pokemons {
     _$pokemonsAtom.reportRead();
     return super.pokemons;
   }
 
   @override
-  set pokemons(ObservableList<PokemonBasics> value) {
+  set pokemons(ObservableList<Pokemon> value) {
     _$pokemonsAtom.reportWrite(value, super.pokemons, () {
       super.pokemons = value;
     });

@@ -12,7 +12,7 @@ class OnboardingAccountScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox(),
-        actions: [SkipButtonWidget(pathTo: '/home')],
+        actions: [SkipButtonWidget(pathTo: '/')],
       ),
       body: Center(
         child: SizedBox(

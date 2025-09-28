@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:mobx/mobx.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/features/home/models/pokemon_basics.dart';
+import 'package:pokedex/shared/models/pokemon.dart';
 import 'package:pokedex/features/home/models/pokemon_type.dart';
 import 'package:pokedex/features/home/models/order_options.dart';
 import 'package:pokedex/features/home/models/selector_item.dart';
@@ -26,7 +26,7 @@ abstract class PokemonControllerBase with Store {
   List<OrderOptions> orderOptions = [];
 
   @observable
-  ObservableList<PokemonBasics> pokemons = ObservableList<PokemonBasics>();
+  ObservableList<Pokemon> pokemons = ObservableList<Pokemon>();
 
   @observable
   PokemonType? selectedType;
@@ -80,11 +80,11 @@ abstract class PokemonControllerBase with Store {
 
       final initialIds = _filteredIds.take(_pageSize).toList();
 
-      List<PokemonBasics> result = await _repository.getPokemonsByIdsFromCache(
+      List<Pokemon> result = await _repository.getPokemonsByIdsFromCache(
         initialIds,
       );
 
-      final needFetching = result.where((p) => !p.isFetched);
+      final needFetching = result.where((p) => !p.isBasicFetched);
       if (needFetching.isNotEmpty) {
         await _repository.getAndCacheMissingDetails(needFetching.toList());
         result = await _repository.getPokemonsByIdsFromCache(initialIds);
@@ -216,11 +216,9 @@ abstract class PokemonControllerBase with Store {
       final ids = _filteredIds.skip(start).take(_pageSize).toList();
       if (ids.isEmpty) return;
 
-      List<PokemonBasics> result = await _repository.getPokemonsByIdsFromCache(
-        ids,
-      );
+      List<Pokemon> result = await _repository.getPokemonsByIdsFromCache(ids);
 
-      final needFetching = result.where((p) => !p.isFetched);
+      final needFetching = result.where((p) => !p.isBasicFetched);
       if (needFetching.isNotEmpty) {
         await _repository.getAndCacheMissingDetails(needFetching.toList());
         final updated = await _repository.getPokemonsByIdsFromCache(ids);

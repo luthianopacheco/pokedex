@@ -6,7 +6,7 @@ class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key, required this.mobileBody});
 
   int _currentIndex(String location) {
-    if (location.startsWith('/home')) return 0;
+    if (location.startsWith('/')) return 0;
     if (location.startsWith('/regions')) return 1;
     if (location.startsWith('/favorite')) return 2;
     if (location.startsWith('/profile')) return 3;
@@ -16,7 +16,7 @@ class MobileLayout extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/home');
+        context.go('/');
         break;
       case 1:
         context.go('/regions');

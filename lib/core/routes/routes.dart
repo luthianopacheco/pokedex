@@ -3,6 +3,7 @@ import 'package:pokedex/core/routes/screen_transitions.dart';
 import 'package:pokedex/features/favorites/screens/fav_not_logged_screen.dart';
 import 'package:pokedex/features/onboarding/screens/onboarding_main_screen.dart';
 import 'package:pokedex/features/home/screens/home_screen.dart';
+import 'package:pokedex/features/pokemon_details/screens/pokemon_details_screen.dart';
 import 'package:pokedex/features/profile/screens/profile_screen.dart';
 import 'package:pokedex/features/region/screens/regions_screen.dart';
 import 'package:pokedex/features/splash/splash_screen.dart';
@@ -33,11 +34,21 @@ class Routes {
         ),
         routes: [
           GoRoute(
-            path: '/home',
+            path: '/',
             name: 'home',
             pageBuilder: (context, state) =>
                 NoTransitionPage(child: HomeScreen()),
-            routes: [],
+            routes: [
+              GoRoute(
+                path: '/pokemon_details',
+                name: 'pokemon_details',
+                pageBuilder: (context, state) {
+                  final id = state.extra as int;
+                  return NoTransitionPage(child: PokemonDetailsScreen(id: id));
+                },
+                routes: [],
+              ),
+            ],
           ),
           GoRoute(
             path: '/regions',

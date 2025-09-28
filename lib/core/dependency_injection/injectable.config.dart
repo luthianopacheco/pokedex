@@ -16,6 +16,12 @@ import '../../features/home/repositories/pokemon_repository.dart' as _i691;
 import '../../features/home/services/pokemon_cache_service.dart' as _i160;
 import '../../features/onboarding/controllers/onboarding_controller.dart'
     as _i426;
+import '../../features/pokemon_details/controllers/pokemon_details_controller.dart'
+    as _i330;
+import '../../features/pokemon_details/repositories/pokemon_details_repository.dart'
+    as _i228;
+import '../../features/pokemon_details/services/evolutions_cache_service.dart'
+    as _i1028;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
@@ -31,6 +37,15 @@ _i174.GetIt $initGetIt(
   gh.factory<_i426.OnboardingController>(() => _i426.OnboardingController());
   gh.lazySingleton<_i160.PokemonCacheService>(
       () => _i160.PokemonCacheService());
+  gh.lazySingleton<_i1028.EvolutionChainCacheService>(
+      () => _i1028.EvolutionChainCacheService());
+  gh.lazySingleton<_i228.PokemonDetailsRepository>(
+      () => _i228.PokemonDetailsRepository(
+            gh<_i160.PokemonCacheService>(),
+            gh<_i1028.EvolutionChainCacheService>(),
+          ));
+  gh.lazySingleton<_i330.PokemonDetailsController>(() =>
+      _i330.PokemonDetailsController(gh<_i228.PokemonDetailsRepository>()));
   gh.lazySingleton<_i691.PokemonRepository>(
       () => _i691.PokemonRepository(gh<_i160.PokemonCacheService>()));
   gh.lazySingleton<_i201.PokemonController>(

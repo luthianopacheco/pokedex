@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/features/home/models/pokemon_basics.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pokedex/shared/models/pokemon.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/image_content_card.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/text_content_card.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class PokemonCard extends StatelessWidget {
-  final PokemonBasics pokemon;
+  final Pokemon pokemon;
   const PokemonCard({super.key, required this.pokemon});
 
   @override
   Widget build(BuildContext context) {
     return _buildCard(
-      child: Row(
-        children: [
-          TextContentCard(pokemon: pokemon),
-          ImageContentCard(pokemon: pokemon),
-        ],
+      child: InkWell(
+        onTap: () => context.go('/pokemon_details', extra: pokemon.id),
+        child: Row(
+          children: [
+            TextContentCard(pokemon: pokemon),
+            ImageContentCard(
+              imageUrl: pokemon.imageUrl ?? '',
+              type: pokemon.types?.first ?? '',
+            ),
+          ],
+        ),
       ),
     );
   }

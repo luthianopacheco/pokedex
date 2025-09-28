@@ -1,47 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_basics.dart';
+part of 'evolution_chain.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PokemonBasicsAdapter extends TypeAdapter<PokemonBasics> {
+class EvolutionChainAdapter extends TypeAdapter<EvolutionChain> {
   @override
-  final int typeId = 0;
+  final int typeId = 3;
 
   @override
-  PokemonBasics read(BinaryReader reader) {
+  EvolutionChain read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PokemonBasics(
+    return EvolutionChain(
       id: fields[0] as int,
-      name: fields[1] as String,
-      url: fields[2] as String,
-      imageUrl: fields[3] as String?,
-      types: (fields[4] as List?)?.cast<String>(),
-      isFetched: fields[5] as bool,
+      evolutions: (fields[1] as List).cast<Evolution>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, PokemonBasics obj) {
+  void write(BinaryWriter writer, EvolutionChain obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.url)
-      ..writeByte(3)
-      ..write(obj.imageUrl)
-      ..writeByte(4)
-      ..write(obj.types)
-      ..writeByte(5)
-      ..write(obj.isFetched);
+      ..write(obj.evolutions);
   }
 
   @override
@@ -50,7 +38,7 @@ class PokemonBasicsAdapter extends TypeAdapter<PokemonBasics> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PokemonBasicsAdapter &&
+      other is EvolutionChainAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

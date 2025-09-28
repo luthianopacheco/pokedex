@@ -6,6 +6,11 @@ class AppTheme {
     return ThemeData(
       scaffoldBackgroundColor: Color(0xffFAFAFA),
       textTheme: GoogleFonts.poppinsTextTheme().copyWith(
+        headlineLarge: GoogleFonts.poppins(
+          fontSize: 32,
+          fontWeight: FontWeight.w500,
+          color: Color(0xff000000),
+        ),
         headlineMedium: GoogleFonts.poppins(
           fontSize: 26,
           fontWeight: FontWeight.w500,
@@ -15,6 +20,11 @@ class AppTheme {
           fontSize: 21,
           fontWeight: FontWeight.w600,
           color: Color(0xff000000),
+        ),
+        titleSmall: GoogleFonts.poppins(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Color(0x99000000),
         ),
         bodyLarge: GoogleFonts.poppins(
           fontSize: 18,

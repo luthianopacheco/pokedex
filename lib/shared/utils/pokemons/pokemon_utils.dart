@@ -18,7 +18,7 @@ class PokemonTypeUtils {
 
   /// Retorna uma cor para o tipo, ou cor padrão
   static Color getColor(String? type) {
-    return getType(type)?.color ?? const Color(0xFFAAAAAA);
+    return getType(type)?.color ?? const Color(0xFFAAAAAA).withAlpha(0);
   }
 
   /// Retorna o label traduzido (ou original, se não encontrar)
