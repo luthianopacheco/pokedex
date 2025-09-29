@@ -1,59 +1,67 @@
 # <img src="assets/splash/launcher-icon.png" alt="" width="30"/> Pokedex
 
-App de estudo em desenvolvimento criado com Flutter usando arquitetura modular, cache local, paginação e integração com a PokéAPI [PokéAPI](https://https://pokeapi.co/).
+App de estudo em desenvolvimento criado com Flutter usando Arquitetura Limpa (Clean Architecture) por feature, cache local, paginação e integração com a PokéAPI [PokéAPI](https://https://pokeapi.co/).
 
 ## ✨ Funcionalidades
 
-- 🔍 Busca por nome ou ID com delay de 1 segundo após o último caracter digitado
-- 🎯 Filtragem da lista por tipo de Pokémon e/ou ordenação
-- ⬇️ Scroll infinito com carregamento incremental a cada 20 Pokémons
-- 📦 Cache de dados local para evitar requisições excessivas
-- 🔄 Requisições automáticas para detalhes (imagem e tipos) quando não estiver salvo em cache
+- 🔍 Busca por nome ou ID com delay de 1 segundo após o último caracter digitado.
+- 🎯 Filtragem dinâmica da lista por tipo de Pokémon e/ou ordenação.
+- ⬇️ Scroll infinito com carregamento incremental a cada 20 Pokémons.
+- 📦 Uso de Hive para cache de dados local, minimizando requisições HTTP e garantindo o acesso rápido aos dados.
+- 🔄 Requisições automáticas para detalhes (imagem e tipos) e evoluções somente se não estiverem no cache.
 
 
 ## 🧱 Arquitetura do Projeto
-O projeto segue uma estrutura modular baseada em MVC por feature, promovendo reutilização, organização e escalabilidade.
+O projeto foi reestruturado para seguir modelo de Clean architecture aplicada de forma modular por feature. Isso promove uma separação estrita de responsabilidade, alta testabilidade e baixo acoplamento, além de melhorar a visualização e organização do código.
 
 ```
 lib/
 ├── core/                      # Recursos centrais e globais do app
 │   ├── auth/                  # Lógica de autenticação geral
-│   ├── cache/                 # Implementações de cache local
 │   ├── config/                # Configurações globais, constantes
 │   ├── dependency_injection/  # Setup do get_it/injectable
 │   ├── routes/                # Gerenciamento de rotas
 │   └── theme/                 # Definições de tema, cores, fontes
-│
+...
 ├── features/                  # Módulos por funcionalidade
 │   ├── auth/                  # Feature: autenticação
 │   ├── favorites/             # Feature: pokémons favoritos
 │   ├── home/                  # Feature principal: Home da Pokédex
-│   │   ├── controllers/       # Controllers MobX da feature
-│   │   ├── models/            # Modelos (entidades) da feature
-│   │   ├── repositories/      # Repositórios com acesso a dados da feature
-│   │   ├── screens/           # Telas principais da feature
-│   │   ├── services/          # Regras de negócio auxiliares feature
-│   │   └── widgets/           # Componentes reutilizáveis da feature
+│   │   ├── data/              # Implementação de acesso a dados (APIs, cache...).
+│   │   │   ├── datasources/   # Dados brutos e lógica de leitura/escrita (APIs/Cache)
+│   │   │   ├── models/        # Modelos com tratamento de dados
+│   │   │   ├── repositories/  # Repositórios com implementação
+│   │   ├── domain/            # Regras de negócio
+│   │   │   ├── models/        # Modelos sem acoplamento (dados puros)
+│   │   │   ├── repositories/  # Contratos de Repositórios
+│   │   │   ├── use_cases/     # Funções de ações do usuário
+│   │   ├── presentation/      # UI e Gerenciamento de Estado
+│   │   │   ├── controllers/   # Intermediador do fluxo entre a UI, eventos e estado
+│   │   │   ├── stores/        # Stores gerenciadores de estado (MobX) 
+│   │   │   ├── screens/       # Telas principais da feature
+│   │   │   └── widgets/       # Componentes reutilizáveis da feature
 │   ├── onboarding/            # Feature: telas de boas-vindas
 │   ├── pokemon_details/       # Feature: detalhes do Pokémon
 │   ├── profile/               # Feature: perfil do usuário
 │   ├── region/                # Feature: regiões dos Pokémons
 │   ├── splash/                # Feature: splash screen
-│
+...
 ├── shared/                    # Elementos globais reutilizáveis
+│   ├── data/                  # Modelos de dados reutilizáveis
+│   ├── domain/                # Modelos de domínio reutilizáveis
 │   ├── layout/                # Layouts base para telas
 │   └── utils/                 # Funções auxiliares e helpers
 │       ├── color/             # Helpers de cores
 │       ├── helper/            # Funções utilitárias gerais
 │       ├── pokemons/          # Helpers específicos dos pokémons
 │       └── text/              # Constantes e manipulação de texto
-│
+...
 ├── widgets/                   # Componentes globais e genéricos
 │   ├── appbar/                # AppBars customizadas
 │   ├── buttons/               # Botões genéricos
 │   ├── status_widgets/        # Widgets de loading, erro etc.
 │   └── textfields/            # Campos de texto personalizados
-
+...
 ```
 
 ## 🚀 Tecnologias Utilizadas
@@ -112,7 +120,7 @@ flutter run
 
  ✅ Filtros por tipo e ordem
 
- ⬜ Tela de detalhes do Pokémon
+ ✅ Tela de detalhes do Pokémon
 
  ⬜ Aba de Regiões
 
@@ -134,9 +142,10 @@ flutter run
 
 
 ## 📸 Prints
-![Splash Screen & Onboarding Screens](assets/app_prints/onboarding.gif)
-![Pokemon List](assets/app_prints/pokemon-list.gif)
-![Pokemon List Search](assets/app_prints/pokemon-list-search.gif)
+<img src="assets/app_prints/onboarding.gif" alt="Onboarding" height="500"/>
+<img src="assets/app_prints/pokemon-list-search.gif" alt="Pokemon List Search" height="500"/>
+<img src="assets/app_prints/pokemon-list-sort.gif" alt="Pokemon List Sort" height="500"/>
+<img src="assets/app_prints/pokemon-details.gif" alt="Pokemon Details" height="500"/>
 
 ## 🧑‍💻 Autor
 Desenvolvido por: Luthiano Pacheco
