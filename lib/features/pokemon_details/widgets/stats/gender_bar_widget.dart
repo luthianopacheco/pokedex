@@ -25,7 +25,9 @@ class GenderBarWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: LinearProgressIndicator(
             value: malePercent / 100,
-            backgroundColor: Colors.pink.shade100,
+            backgroundColor: malePercent + femalePercent > 0
+                ? Colors.pink.shade100
+                : Theme.of(context).disabledColor,
             color: Colors.blue,
             minHeight: 10,
             borderRadius: BorderRadius.circular(10),

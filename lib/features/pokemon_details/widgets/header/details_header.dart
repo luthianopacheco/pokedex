@@ -22,6 +22,7 @@ class DetailsHeader extends StatelessWidget {
         Stack(
           children: [
             AnimatedPokemon(
+              staticImageUrl: pokemon.imageUrl ?? '',
               animatedUrl: pokemon.animatedImageUrl ?? '',
               pokemonHeight: pokemon.height ?? 150,
               type: pokemon.types?.first ?? '',

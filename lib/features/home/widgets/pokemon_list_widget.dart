@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
 import 'package:pokedex/features/home/widgets/pokemon_card/pokemon_card.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
+import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
 
 class PokemonList extends StatelessWidget {
   final PokemonController controller;
@@ -44,7 +45,7 @@ class PokemonList extends StatelessWidget {
               } else {
                 return const Padding(
                   padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: PokeballLoadingIndicator()),
                 );
               }
             },

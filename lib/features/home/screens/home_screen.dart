@@ -17,11 +17,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = getIt<PokemonController>();
+  late final TextEditingController _searchController;
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _searchController = TextEditingController(text: _controller.searchPokemon);
+
     _scrollController = ScrollController()
       ..addListener(() {
         if (!_scrollController.hasClients || _controller.isLoadingMore) return;
@@ -38,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -51,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBarPreferredSize: 32,
             bottomContent: CustomSearchField(
               hintText: 'Procurar Pokémon',
+              controller: _searchController,
               onChanged: (value) => _controller.setSearchPokemon(value),
             ),
           ),

@@ -17,23 +17,19 @@ class PokemonDetailsScreen extends StatelessWidget {
       future: _controller.getPokemonDetails(id: id),
       builder: (context, snapshot) {
         return Scaffold(
-          body: SingleChildScrollView(
-            child: Center(
-              child: Observer(
-                builder: (context) {
-                  return AsyncStatusHandler(
-                    isLoading: _controller.isLoading,
-                    hasError: _controller.hasError,
-                    errorMessage: _controller.errorMessage,
-                    onRetry: () {
-                      _controller.clearError();
-                      _controller.getPokemonDetails(id: id);
-                    },
-                    child: DetailsContent(),
-                  );
+          body: Observer(
+            builder: (context) {
+              return AsyncStatusHandler(
+                isLoading: _controller.isLoading,
+                hasError: _controller.hasError,
+                errorMessage: _controller.errorMessage,
+                onRetry: () {
+                  _controller.clearError();
+                  _controller.getPokemonDetails(id: id);
                 },
-              ),
-            ),
+                child: SingleChildScrollView(child: DetailsContent()),
+              );
+            },
           ),
         );
       },

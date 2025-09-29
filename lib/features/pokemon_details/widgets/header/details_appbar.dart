@@ -8,7 +8,7 @@ class DetailsAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -16,10 +16,10 @@ class DetailsAppbar extends StatelessWidget {
             icon: Icon(CupertinoIcons.chevron_back, color: iconsColor),
             onPressed: () => Navigator.pop(context),
           ),
-          IconButton(
-            icon: Icon(Icons.favorite_border, color: iconsColor),
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.favorite_border, color: iconsColor),
+          //   onPressed: () {},
+          // ),
         ],
       ),
     );

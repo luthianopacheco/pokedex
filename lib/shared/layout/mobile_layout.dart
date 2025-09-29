@@ -6,9 +6,9 @@ class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key, required this.mobileBody});
 
   int _currentIndex(String location) {
-    if (location.startsWith('/')) return 0;
+    if (location == '/' || location.startsWith('/pokemon_details')) return 0;
     if (location.startsWith('/regions')) return 1;
-    if (location.startsWith('/favorite')) return 2;
+    if (location.startsWith('/favorites')) return 2;
     if (location.startsWith('/profile')) return 3;
     return 0;
   }

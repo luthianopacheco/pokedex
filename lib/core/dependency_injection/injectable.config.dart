@@ -22,6 +22,7 @@ import '../../features/pokemon_details/repositories/pokemon_details_repository.d
     as _i228;
 import '../../features/pokemon_details/services/evolutions_cache_service.dart'
     as _i1028;
+import '../../features/profile/controllers/profile_controller.dart' as _i521;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
@@ -39,6 +40,7 @@ _i174.GetIt $initGetIt(
       () => _i160.PokemonCacheService());
   gh.lazySingleton<_i1028.EvolutionChainCacheService>(
       () => _i1028.EvolutionChainCacheService());
+  gh.lazySingleton<_i521.ProfileController>(() => _i521.ProfileController());
   gh.lazySingleton<_i228.PokemonDetailsRepository>(
       () => _i228.PokemonDetailsRepository(
             gh<_i160.PokemonCacheService>(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
+import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
 
 class AsyncStatusHandler extends StatelessWidget {
   final bool isLoading;
@@ -20,7 +21,9 @@ class AsyncStatusHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Expanded(child: Center(child: CircularProgressIndicator()));
+      return const Expanded(
+        child: Center(child: SizedBox(child: PokeballLoadingIndicator())),
+      );
     }
 
     if (hasError) {

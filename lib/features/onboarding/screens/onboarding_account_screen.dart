@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/onboarding/widgets/onboarding_content_widget.dart';
 import 'package:pokedex/features/onboarding/widgets/skip_button_widget.dart';
+import 'package:pokedex/shared/widgets/bages/button_badge.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_text_button.dart';
 
@@ -27,8 +28,7 @@ class OnboardingAccountScreen extends StatelessWidget {
                     'Basta criar uma conta e começar a explorar o mundo dos Pokémon hoje!',
               ),
               const SizedBox(height: 30),
-              _buildBadge(
-                context,
+              ButtonBadge(
                 y: -12,
                 alignment: Alignment.topRight,
                 child: CustomButton(
@@ -36,8 +36,7 @@ class OnboardingAccountScreen extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              _buildBadge(
-                context,
+              ButtonBadge(
                 y: -20,
                 alignment: Alignment.centerRight,
                 child: CustomTextButton(
@@ -50,24 +49,6 @@ class OnboardingAccountScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildBadge(
-    context, {
-    required Alignment alignment,
-    required double y,
-    required Widget child,
-  }) {
-    return Badge(
-      label: Text(
-        'Em Breve',
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 12),
-      ),
-      alignment: alignment,
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      offset: Offset(-50, y),
-      child: child,
     );
   }
 }

@@ -3,11 +3,13 @@ import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 import 'package:pokedex/shared/widgets/images/shader_image.dart';
 
 class AnimatedPokemon extends StatelessWidget {
+  final String staticImageUrl;
   final String animatedUrl;
   final double pokemonHeight;
   final String type;
   const AnimatedPokemon({
     super.key,
+    required this.staticImageUrl,
     required this.animatedUrl,
     required this.pokemonHeight,
     required this.type,
@@ -52,6 +54,12 @@ class AnimatedPokemon extends StatelessWidget {
                   height: height,
                   width: 250,
                   fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Image.network(
+                    staticImageUrl,
+                    height: height,
+                    width: 250,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ],
             ),
