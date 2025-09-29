@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
-import 'package:pokedex/shared/widgets/bages/button_badge.dart';
+import 'package:pokedex/shared/widgets/badges/button_badge.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 
 class ProfileUnloggedAppbar extends StatelessWidget

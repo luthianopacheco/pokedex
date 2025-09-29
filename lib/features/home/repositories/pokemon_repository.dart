@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pokedex/features/home/models/order_options.dart';
-import 'package:pokedex/shared/models/pokemon.dart';
+import 'package:pokedex/shared/data/models/pokemon_data.dart';
 import 'package:pokedex/features/home/models/pokemon_type.dart';
 import 'package:pokedex/features/home/services/pokemon_cache_service.dart';
 
@@ -24,7 +24,7 @@ class PokemonRepository {
       final data = response.data['results'] as List<dynamic>;
 
       for (var item in data) {
-        final basic = Pokemon.fromJson(item);
+        final basic = PokemonData.fromJson(item);
 
         final existingCache = await _cache.getById(basic.id);
         if (existingCache == null) {
@@ -39,7 +39,7 @@ class PokemonRepository {
     }
   }
 
-  Future<List<Pokemon>> getAllFromCache() async {
+  Future<List<PokemonData>> getAllFromCache() async {
     try {
       final all = await _cache.getAll();
       all.sort((a, b) => a.id.compareTo(b.id));
@@ -51,7 +51,7 @@ class PokemonRepository {
   }
 
   /// Busca na API dados faltantes em cache: tipos e imagem
-  Future<void> getAndCacheMissingDetails(List<Pokemon> list) async {
+  Future<void> getAndCacheMissingDetails(List<PokemonData> list) async {
     for (var entry in list.where((e) => !e.isBasicFetched)) {
       try {
         final response = await _dio.get(entry.url);
@@ -64,12 +64,12 @@ class PokemonRepository {
   }
 
   /// Busca pokémons pela lista de ID
-  Future<List<Pokemon>> getPokemonsByIdsFromCache(List<int> ids) async {
+  Future<List<PokemonData>> getPokemonsByIdsFromCache(List<int> ids) async {
     try {
       final cached = await _cache.getAll();
       final map = {for (var p in cached) p.id: p};
 
-      return ids.map((id) => map[id]).whereType<Pokemon>().toList();
+      return ids.map((id) => map[id]).whereType<PokemonData>().toList();
     } catch (e) {
       debugPrint(e.toString());
       throw Exception('Erro ao buscar Pokémons por IDs');
@@ -125,7 +125,7 @@ class PokemonRepository {
   }) async {
     try {
       final cached = await _cache.getAll();
-      List<Pokemon> result = cached;
+      List<PokemonData> result = cached;
 
       if (namesOnly != null && namesOnly.isNotEmpty) {
         result = result.where((p) => namesOnly.contains(p.name)).toList();

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:mobx/mobx.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/shared/models/pokemon.dart';
+import 'package:pokedex/shared/data/models/pokemon_data.dart';
 import 'package:pokedex/features/home/models/pokemon_type.dart';
 import 'package:pokedex/features/home/models/order_options.dart';
 import 'package:pokedex/features/home/models/selector_item.dart';
@@ -26,7 +26,7 @@ abstract class PokemonControllerBase with Store {
   List<OrderOptions> orderOptions = [];
 
   @observable
-  ObservableList<Pokemon> pokemons = ObservableList<Pokemon>();
+  ObservableList<PokemonData> pokemons = ObservableList<PokemonData>();
 
   @observable
   PokemonType? selectedType;
@@ -80,7 +80,7 @@ abstract class PokemonControllerBase with Store {
 
       final initialIds = _filteredIds.take(_pageSize).toList();
 
-      List<Pokemon> result = await _repository.getPokemonsByIdsFromCache(
+      List<PokemonData> result = await _repository.getPokemonsByIdsFromCache(
         initialIds,
       );
 
@@ -216,7 +216,9 @@ abstract class PokemonControllerBase with Store {
       final ids = _filteredIds.skip(start).take(_pageSize).toList();
       if (ids.isEmpty) return;
 
-      List<Pokemon> result = await _repository.getPokemonsByIdsFromCache(ids);
+      List<PokemonData> result = await _repository.getPokemonsByIdsFromCache(
+        ids,
+      );
 
       final needFetching = result.where((p) => !p.isBasicFetched);
       if (needFetching.isNotEmpty) {

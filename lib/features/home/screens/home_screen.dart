@@ -6,7 +6,7 @@ import 'package:pokedex/shared/widgets/textfields/custom_search_field.dart';
 import 'package:pokedex/features/home/widgets/filter_buttons/filter_buttons.dart';
 import 'package:pokedex/features/home/widgets/pokemon_list_widget.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
-import 'package:pokedex/shared/widgets/status_widgets/async_status_handler.dart';
+import 'package:pokedex/shared/widgets/status/async_status_handler.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
