@@ -1,26 +1,29 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/features/home/models/order_options.dart';
+import 'package:pokedex/features/home/data/models/order_options_data.dart';
+import 'package:pokedex/features/home/domain/models/order_options.dart';
+import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
+import 'package:pokedex/features/home/domain/repositories/i_home_repository.dart';
 import 'package:pokedex/shared/data/models/pokemon_data.dart';
-import 'package:pokedex/features/home/models/pokemon_type.dart';
-import 'package:pokedex/features/home/services/pokemon_cache_service.dart';
+import 'package:pokedex/features/home/data/models/pokemon_type_data.dart';
+import 'package:pokedex/features/home/data/datasources/pokemon_cache_service.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:pokedex/shared/domain/models/pokemon.dart';
 
-@lazySingleton
-class PokemonRepository {
-  final _dio = Dio();
-  final _apiUrl = 'https://pokeapi.co/api/v2';
+@LazySingleton(as: IHomeRepository)
+class HomeRepositoryImpl implements IHomeRepository {
+  final Dio _dio;
   final PokemonCacheService _cache;
-
-  PokemonRepository(this._cache);
+  HomeRepositoryImpl(this._cache, this._dio);
 
   /// Busca lista de pokémons com nome e url e salva em cache
+  @override
   Future<void> getAndCachePokemonBasics() async {
     try {
-      final response = await _dio.get("$_apiUrl/pokemon?limit=10000");
+      final response = await _dio.get('pokemon?limit=10000');
       final data = response.data['results'] as List<dynamic>;
 
       for (var item in data) {
@@ -51,8 +54,10 @@ class PokemonRepository {
   }
 
   /// Busca na API dados faltantes em cache: tipos e imagem
-  Future<void> getAndCacheMissingDetails(List<PokemonData> list) async {
-    for (var entry in list.where((e) => !e.isBasicFetched)) {
+  @override
+  Future<void> getAndCacheMissingDetails(List<Pokemon> list) async {
+    final listData = list.map((p) => p.toData()).toList();
+    for (var entry in listData.where((e) => !e.isBasicFetched)) {
       try {
         final response = await _dio.get(entry.url);
         final updated = entry.copyWithBasics(response.data);
@@ -64,12 +69,18 @@ class PokemonRepository {
   }
 
   /// Busca pokémons pela lista de ID
-  Future<List<PokemonData>> getPokemonsByIdsFromCache(List<int> ids) async {
+  @override
+  Future<List<Pokemon>> getPokemonsByIdsFromCache(List<int> ids) async {
     try {
-      final cached = await _cache.getAll();
-      final map = {for (var p in cached) p.id: p};
+      final cachedDataList = await _cache.getAll();
+      final map = {for (var p in cachedDataList) p.id: p};
 
-      return ids.map((id) => map[id]).whereType<PokemonData>().toList();
+      final resultData = ids
+          .map((id) => map[id])
+          .whereType<PokemonData>()
+          .toList();
+
+      return resultData.map((data) => data.toDomain()).toList();
     } catch (e) {
       debugPrint(e.toString());
       throw Exception('Erro ao buscar Pokémons por IDs');
@@ -77,13 +88,18 @@ class PokemonRepository {
   }
 
   /// Carrega as opções de tipos de pokémons dos assets
+  @override
   Future<List<PokemonType>> loadTypeFilterOptions() async {
     try {
       final path = 'assets/data/pokemon_types.json';
       final data = await rootBundle.loadString(path);
       final jsonResult = json.decode(data) as List<dynamic>;
 
-      return jsonResult.map((e) => PokemonType.fromJson(e)).toList();
+      final dataList = jsonResult
+          .map((e) => PokemonTypeData.fromJson(e))
+          .toList();
+
+      return dataList.map((data) => data.toDomain()).toList();
     } catch (e) {
       debugPrint(e.toString());
       throw Exception('Erro ao carregar filtro: tipos');
@@ -91,22 +107,27 @@ class PokemonRepository {
   }
 
   /// Carrega as opções de ordenação de pokémons dos assets
+  @override
   Future<List<OrderOptions>> loadOrderFilterOptions() async {
     try {
       final path = 'assets/data/order_options.json';
       final data = await rootBundle.loadString(path);
       final jsonResult = json.decode(data) as List<dynamic>;
 
-      return jsonResult.map((e) => OrderOptions.fromJson(e)).toList();
+      final resultData = jsonResult
+          .map((e) => OrderOptionsData.fromJson(e))
+          .toList();
+      return resultData.map((data) => data.toDomain()).toList();
     } catch (e) {
       debugPrint(e.toString());
       throw Exception('Erro ao carregar filtro: ordenação');
     }
   }
 
+  @override
   Future<List<String>> getPokemonNamesByType(String typeName) async {
     try {
-      final response = await Dio().get('$_apiUrl/type/$typeName');
+      final response = await _dio.get('type/$typeName');
       final data = response.data['pokemon'] as List<dynamic>;
 
       return data.map((e) => e['pokemon']['name'] as String).toList();
@@ -117,6 +138,7 @@ class PokemonRepository {
   }
 
   /// Busca os pokémons em cache a serem exibidos considerando o campo de pesquisa e filtros
+  @override
   Future<List<int>> getFilteredPokemonIds({
     String? search,
     String? type,

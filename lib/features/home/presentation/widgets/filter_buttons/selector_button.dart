@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pokedex/features/home/models/selector_item.dart';
+import 'package:pokedex/features/home/domain/models/selector_item.dart';
 import 'package:pokedex/shared/utils/color/color_utils.dart';
 
 class SelectorButton extends StatelessWidget {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
-import 'package:pokedex/features/home/widgets/pokemon_card/pokemon_card.dart';
+import 'package:pokedex/features/home/presentation/controllers/home_controller.dart';
+import 'package:pokedex/features/home/presentation/widgets/pokemon_card/pokemon_card.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
 
 class PokemonList extends StatelessWidget {
-  final PokemonController controller;
+  final HomeController controller;
   final ScrollController scrollController;
   const PokemonList({
     super.key,
@@ -18,11 +18,11 @@ class PokemonList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final pokemons = controller.pokemons;
-        final plus = controller.isLoadingMore ? 1 : 0;
+        final pokemons = controller.store.pokemons;
+        final plus = controller.store.isLoadingMore ? 1 : 0;
 
-        if (pokemons.isEmpty && !controller.isLoading) {
-          final selectedType = controller.selectedType?.type ?? 'all';
+        if (pokemons.isEmpty && !controller.store.isLoading) {
+          final selectedType = controller.store.selectedType?.type ?? 'all';
           final message = selectedType != 'all'
               ? ' para o tipo "${PokemonTypeUtils.getLabel(selectedType)}"'
               : '';

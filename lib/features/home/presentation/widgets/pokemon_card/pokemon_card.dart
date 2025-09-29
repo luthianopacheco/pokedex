@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/shared/data/models/pokemon_data.dart';
-import 'package:pokedex/features/home/widgets/pokemon_card/image_content_card.dart';
-import 'package:pokedex/features/home/widgets/pokemon_card/text_content_card.dart';
+import 'package:pokedex/features/home/presentation/widgets/pokemon_card/image_content_card.dart';
+import 'package:pokedex/features/home/presentation/widgets/pokemon_card/text_content_card.dart';
+import 'package:pokedex/shared/domain/models/pokemon.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 
 class PokemonCard extends StatelessWidget {
-  final PokemonData pokemon;
+  final Pokemon pokemon;
   const PokemonCard({super.key, required this.pokemon});
 
   @override
@@ -18,8 +18,8 @@ class PokemonCard extends StatelessWidget {
           children: [
             TextContentCard(pokemon: pokemon),
             ImageContentCard(
-              imageUrl: pokemon.imageUrl ?? '',
-              type: pokemon.types?.first ?? '',
+              imageUrl: pokemon.imageUrl ,
+              type: pokemon.types.first,
             ),
           ],
         ),
@@ -32,7 +32,7 @@ class PokemonCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         color: PokemonTypeUtils.getColor(
-          pokemon.types?.first,
+          pokemon.types.first,
         ).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),

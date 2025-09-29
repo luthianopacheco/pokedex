@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
-import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
+import 'package:pokedex/features/home/presentation/controllers/home_controller.dart';
 import 'package:pokedex/shared/widgets/textfields/custom_search_field.dart';
-import 'package:pokedex/features/home/widgets/filter_buttons/filter_buttons.dart';
-import 'package:pokedex/features/home/widgets/pokemon_list_widget.dart';
+import 'package:pokedex/features/home/presentation/widgets/filter_buttons/filter_buttons.dart';
+import 'package:pokedex/features/home/presentation/widgets/pokemon_list_widget.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
 import 'package:pokedex/shared/widgets/status/async_status_handler.dart';
 
@@ -16,23 +16,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _controller = getIt<PokemonController>();
+  final _controller = getIt<HomeController>();
   late final TextEditingController _searchController;
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController(text: _controller.searchPokemon);
+    _searchController = TextEditingController(
+      text: _controller.store.searchPokemon,
+    );
 
     _scrollController = ScrollController()
       ..addListener(() {
-        if (!_scrollController.hasClients || _controller.isLoadingMore) return;
+        if (!_scrollController.hasClients || _controller.store.isLoadingMore) {
+          return;
+        }
 
         final position = _scrollController.position;
         final threshold = position.maxScrollExtent - 200;
 
-        if (position.pixels >= threshold && !_controller.isLoadingMore) {
+        if (position.pixels >= threshold && !_controller.store.isLoadingMore) {
           _controller.loadMorePokemons();
         }
       });
@@ -69,11 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Observer(
                   builder: (context) {
                     return AsyncStatusHandler(
-                      isLoading: _controller.isLoading,
-                      hasError: _controller.hasError,
-                      errorMessage: _controller.errorMessage,
+                      isLoading: _controller.store.isLoading,
+                      hasError: _controller.store.hasError,
+                      errorMessage: _controller.store.errorMessage,
                       onRetry: () {
-                        _controller.clearError();
+                        _controller.store.clearError();
                         _controller.init();
                       },
                       child: PokemonList(

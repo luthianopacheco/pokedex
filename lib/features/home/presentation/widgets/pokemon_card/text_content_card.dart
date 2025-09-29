@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/shared/data/models/pokemon_data.dart';
+import 'package:pokedex/shared/domain/models/pokemon.dart';
 import 'package:pokedex/shared/utils/text/string_utils.dart';
 import 'package:pokedex/shared/widgets/chips/pokemon_types_widget.dart';
 
 class TextContentCard extends StatelessWidget {
-  final PokemonData pokemon;
+  final Pokemon pokemon;
   const TextContentCard({super.key, required this.pokemon});
 
   @override
@@ -20,7 +20,7 @@ class TextContentCard extends StatelessWidget {
             SizedBox(height: 2),
             _pokemonName(context),
             SizedBox(height: 6),
-            PokemonTypesWidget(types: pokemon.types ?? []),
+            PokemonTypesWidget(types: pokemon.types),
           ],
         ),
       ),

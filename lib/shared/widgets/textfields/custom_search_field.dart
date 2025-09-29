@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
-import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
+import 'package:pokedex/features/home/presentation/controllers/home_controller.dart';
 
 class CustomSearchField extends StatelessWidget {
   final String hintText;
@@ -15,13 +15,13 @@ class CustomSearchField extends StatelessWidget {
     this.controller,
   });
 
-  final _controller = getIt<PokemonController>();
+  final _controller = getIt<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        final showClearButton = _controller.searchPokemon.isNotEmpty;
+        final showClearButton = _controller.store.searchPokemon.isNotEmpty;
 
         return Padding(
           padding: const EdgeInsets.all(20.0),

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/features/home/services/pokemon_cache_service.dart';
+import 'package:pokedex/features/home/data/datasources/pokemon_cache_service.dart';
 import 'package:pokedex/features/pokemon_details/data/models/evolution_data.dart';
 import 'package:pokedex/features/pokemon_details/data/models/evolution_chain_data.dart';
 import 'package:pokedex/features/pokemon_details/domain/repositories/i_pokemon_details_repository.dart';
@@ -35,8 +35,19 @@ class PokemonDetailsRepositoryImpl implements IPokemonDetailsRepository {
       EvolutionChainData? chain;
 
       if (!pokemon.isDetailsFetched) {
-        final speciesResponse = await _dio.get("pokemon-species/$id");
-        final speciesData = speciesResponse.data;
+        Map<String, dynamic> speciesData = {};
+        try {
+          final speciesResponse = await _dio.get("pokemon-species/$id");
+          speciesData = speciesResponse.data;
+        } on DioException catch (e) {
+          if (e.response?.statusCode == 404) {
+            debugPrint(
+              "404: Pokemon-Species com o ID $id não existe. Seguindo com dados parciais.",
+            );
+          } else {
+            rethrow;
+          }
+        }
 
         final firstType = pokemon.types?.first;
         Map<String, dynamic> typeData = {};

@@ -34,18 +34,19 @@ class BaseRowWidget extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _infoCard(
-              context,
-              iconName: 'category',
-              label: 'CATEGORIA',
-              value: category.capitalizeFirst(),
-              crossAxisAlignment: CrossAxisAlignment.center,
-            ),
-          ],
-        ),
+        if (category.isNotEmpty)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _infoCard(
+                context,
+                iconName: 'category',
+                label: 'CATEGORIA',
+                value: category.capitalizeFirst(),
+                crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+            ],
+          ),
       ],
     );
   }

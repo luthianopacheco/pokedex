@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:pokedex/features/home/controllers/pokemon_controller.dart';
-import 'package:pokedex/features/home/widgets/filter_buttons/selector_button.dart';
+import 'package:pokedex/features/home/presentation/controllers/home_controller.dart';
+import 'package:pokedex/features/home/presentation/widgets/filter_buttons/selector_button.dart';
 
 class FilterButtons extends StatelessWidget {
-  final PokemonController controller;
+  final HomeController controller;
   const FilterButtons({super.key, required this.controller});
 
   @override
@@ -17,8 +17,8 @@ class FilterButtons extends StatelessWidget {
             builder: (context) {
               return SelectorButton(
                 modalTitle: 'Selecione o tipo',
-                items: controller.pokemonTypes,
-                selectedItem: controller.selectedType,
+                items: controller.store.pokemonTypes,
+                selectedItem: controller.store.selectedType,
                 onSelected: controller.setSelectedType,
               );
             },
@@ -28,8 +28,8 @@ class FilterButtons extends StatelessWidget {
             builder: (context) {
               return SelectorButton(
                 modalTitle: 'Ordenar por',
-                items: controller.orderOptions,
-                selectedItem: controller.selectedOrder,
+                items: controller.store.orderOptions,
+                selectedItem: controller.store.selectedOrder,
                 onSelected: controller.setSelectedOrder,
               );
             },

@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/routes/screen_transitions.dart';
 import 'package:pokedex/features/favorites/screens/fav_not_logged_screen.dart';
 import 'package:pokedex/features/onboarding/screens/onboarding_main_screen.dart';
-import 'package:pokedex/features/home/screens/home_screen.dart';
+import 'package:pokedex/features/home/presentation/screens/home_screen.dart';
 import 'package:pokedex/features/pokemon_details/presentation/screens/pokemon_details_screen.dart';
 import 'package:pokedex/features/profile/screens/profile_screen.dart';
 import 'package:pokedex/features/region/screens/regions_screen.dart';

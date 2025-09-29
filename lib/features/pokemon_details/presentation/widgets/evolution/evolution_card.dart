@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/features/home/widgets/pokemon_card/image_content_card.dart';
+import 'package:pokedex/features/home/presentation/widgets/pokemon_card/image_content_card.dart';
 import 'package:pokedex/features/pokemon_details/domain/models/evolution.dart';
 import 'package:pokedex/shared/utils/text/string_utils.dart';
 import 'package:pokedex/shared/widgets/chips/pokemon_types_widget.dart';

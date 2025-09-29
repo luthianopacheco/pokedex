@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:pokedex/features/home/models/pokemon_type.dart';
+import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
 
 class PokemonTypeUtils {
   static List<PokemonType> _types = [];

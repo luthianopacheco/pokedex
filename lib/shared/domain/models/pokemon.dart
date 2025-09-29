@@ -1,3 +1,5 @@
+import 'package:pokedex/shared/data/models/gender_data.dart';
+import 'package:pokedex/shared/data/models/pokemon_data.dart';
 import 'package:pokedex/shared/domain/models/gender.dart';
 
 class Pokemon {
@@ -35,4 +37,25 @@ class Pokemon {
     required this.chainId,
     required this.isDetailsFetched,
   });
+
+  PokemonData toData() {
+    return PokemonData(
+      id: id,
+      name: name,
+      url: url,
+      imageUrl: imageUrl,
+      types: types,
+      isBasicFetched: isBasicFetched,
+      animatedImageUrl: animatedImageUrl,
+      description: description,
+      weight: weight,
+      height: height,
+      category: category,
+      abilities: abilities,
+      gender: GenderData(male: gender.male, female: gender.female),
+      weaknesses: weaknesses,
+      chainId: chainId,
+      isDetailsFetched: isDetailsFetched,
+    );
+  }
 }
