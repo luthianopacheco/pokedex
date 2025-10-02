@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class OnboardingContentWidget extends StatelessWidget {
-  final String image;
+  final String imagePath;
   final String title;
   final String description;
 
   const OnboardingContentWidget({
     super.key,
-    required this.image,
+    required this.imagePath,
     required this.title,
     required this.description,
   });
@@ -17,7 +17,7 @@ class OnboardingContentWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Image.asset('assets/images/$image'),
+        Image.asset(imagePath),
         const SizedBox(height: 30),
         Text(
           title,

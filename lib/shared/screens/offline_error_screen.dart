@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
 import 'package:pokedex/core/stores/connectivity_store.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/utils/helper/screen_helper.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
@@ -32,7 +33,7 @@ class OfflineErrorScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset('assets/images/general_images/no-wifi.png'),
+              Assets.images.generalImages.noWifi.image(),
               const SizedBox(height: 20),
               Text(
                 'Sem Conexão com a Internet',

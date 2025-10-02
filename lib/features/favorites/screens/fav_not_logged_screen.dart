@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/onboarding/widgets/onboarding_content_widget.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
 import 'package:pokedex/shared/widgets/badges/button_badge.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
@@ -25,7 +26,7 @@ class FavNotLoggedScreen extends StatelessWidget {
               spacing: 30,
               children: [
                 OnboardingContentWidget(
-                  image: 'general_images/fav_image_1.png',
+                  imagePath: Assets.images.generalImages.favImage1.path,
                   title: 'Você precisa entrar em uma conta para fazer isso.',
                   description:
                       'Para acessar essa funcionalidade, é necessário fazer login ou criar uma conta. Essa funcionalidade ficará disponível em breve.\nFique ligado!',

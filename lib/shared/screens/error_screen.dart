@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/utils/helper/screen_helper.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 
@@ -27,10 +28,7 @@ class ErrorScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 10,
               children: [
-                Image.asset(
-                  'assets/images/general_images/error.png',
-                  height: 300,
-                ),
+                Assets.images.generalImages.error.image(height: 300),
                 Text(
                   errorTitle ?? 'Erro inesperado',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/onboarding/widgets/onboarding_content_widget.dart';
 import 'package:pokedex/features/onboarding/widgets/skip_button_widget.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/widgets/badges/button_badge.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_text_button.dart';
@@ -22,7 +23,7 @@ class OnboardingAccountScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OnboardingContentWidget(
-                image: 'onboarding_images/onboarding-3.png',
+                imagePath: Assets.images.onboardingImages.onboarding3.path,
                 title: 'Está Pronto para essa aventura?',
                 description:
                     'Basta criar uma conta e começar a explorar o mundo dos Pokémon hoje!',

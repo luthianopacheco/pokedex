@@ -67,7 +67,7 @@ class ImageContentCard extends StatelessWidget {
 
   // Widget _favIconButton() {
   //   return IconButton(
-  //     icon: Image.asset('assets/icons/general_icons/fav-2-unselected.png'),
+  //     icon: Assets.icons.generalIcons.fav2Unselected.image(),
   //     onPressed: () {},
   //     color: Theme.of(context).colorScheme.onPrimary,
   //   );

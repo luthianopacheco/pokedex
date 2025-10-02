@@ -62,6 +62,8 @@ _i174.GetIt $initGetIt(
   );
   final dependencyModule = _$DependencyModule();
   gh.factory<_i426.OnboardingController>(() => _i426.OnboardingController());
+  gh.lazySingleton<_i361.Dio>(() => dependencyModule.dio);
+  gh.lazySingleton<_i895.Connectivity>(() => dependencyModule.connectivity);
   gh.lazySingleton<_i642.PokemonCacheService>(
       () => _i642.PokemonCacheService());
   gh.lazySingleton<_i26.HomeStore>(() => _i26.HomeStore());
@@ -70,8 +72,6 @@ _i174.GetIt $initGetIt(
   gh.lazySingleton<_i825.PokemonDetailsStore>(
       () => _i825.PokemonDetailsStore());
   gh.lazySingleton<_i521.ProfileController>(() => _i521.ProfileController());
-  gh.lazySingleton<_i361.Dio>(() => dependencyModule.dio);
-  gh.lazySingleton<_i895.Connectivity>(() => dependencyModule.connectivity);
   gh.lazySingleton<_i128.IPokemonDetailsRepository>(
       () => _i595.PokemonDetailsRepositoryImpl(
             gh<_i642.PokemonCacheService>(),

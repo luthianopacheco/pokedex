@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/theme/app_colors.dart';
+import 'package:pokedex/gen/assets.gen.dart';
+import 'package:pokedex/shared/utils/helper/path_helper.dart';
 import 'package:pokedex/shared/utils/text/string_utils.dart';
 
 class BaseRowWidget extends StatelessWidget {
@@ -59,13 +61,17 @@ class BaseRowWidget extends StatelessWidget {
     required String value,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
   }) {
+    final partialPath = AssetUtils.getPartialPath(
+      Assets.icons.generalIcons.arrowDown.path,
+    );
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           spacing: 5,
           children: [
-            Image.asset('assets/icons/general_icons/$iconName.png', height: 14),
+            Image.asset('$partialPath/$iconName.png', height: 14),
             Text(
               label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(

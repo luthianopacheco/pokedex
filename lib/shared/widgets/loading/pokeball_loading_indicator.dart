@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 
 class PokeballLoadingIndicator extends StatefulWidget {
-  final String imagePath;
+  final String? imagePath;
   final double size;
 
-  const PokeballLoadingIndicator({
-    super.key,
-    this.imagePath = 'assets/icons/nav_icons/pokedex-selected.png',
-    this.size = 50.0,
-  });
+  const PokeballLoadingIndicator({super.key, this.imagePath, this.size = 50.0});
 
   @override
   State<PokeballLoadingIndicator> createState() =>
@@ -43,7 +40,7 @@ class _PokeballLoadingIndicatorState extends State<PokeballLoadingIndicator>
       },
 
       child: Image.asset(
-        widget.imagePath,
+        widget.imagePath ?? Assets.icons.navIcons.pokedexSelected.path,
         width: widget.size,
         height: widget.size,
       ),

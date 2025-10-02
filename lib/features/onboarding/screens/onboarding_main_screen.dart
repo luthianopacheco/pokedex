@@ -9,21 +9,22 @@ import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
 
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 
 class OnboardingMainScreen extends StatelessWidget {
   OnboardingMainScreen({super.key});
 
   final _controller = getIt<OnboardingController>();
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages = [
     OnboardingContentWidget(
-      image: 'onboarding_images/onboarding-1.png',
+      imagePath: Assets.images.onboardingImages.onboarding1.path,
       title: 'Todos os Pokémons em um só Lugar',
       description:
           'Acesse uma vasta lista de Pokémon de todas as gerações já feitas pela Nintendo',
     ),
     OnboardingContentWidget(
-      image: 'onboarding_images/onboarding-2.png',
+      imagePath: Assets.images.onboardingImages.onboarding2.path,
       title: 'Mantenha sua Pokédex atualizada',
       description:
           'Cadastre-se e mantenha seu perfil, pokémon favoritos, configurações e muito mais, salvos no aplicativo, mesmo sem conexão com a internet.',

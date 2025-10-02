@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/gen/assets.gen.dart';
+import 'package:pokedex/shared/utils/helper/path_helper.dart';
 
 class MobileLayout extends StatelessWidget {
   final Widget? mobileBody;
@@ -82,10 +84,9 @@ class MobileLayout extends StatelessWidget {
   }
 
   Widget _buildImageAsset({required String imageName}) {
-    return Image.asset(
-      'assets/icons/nav_icons/$imageName',
-      width: 24,
-      height: 24,
+    final partialPath = AssetUtils.getPartialPath(
+      Assets.icons.navIcons.favSelected.path,
     );
+    return Image.asset('$partialPath/$imageName', width: 24, height: 24);
   }
 }

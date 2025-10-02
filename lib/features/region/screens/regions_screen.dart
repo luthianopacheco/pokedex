@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/features/onboarding/widgets/onboarding_content_widget.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
 
 class RegionsScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class RegionsScreen extends StatelessWidget {
             spacing: 30,
             children: [
               OnboardingContentWidget(
-                image: 'general_images/fav_image_2.png',
+                imagePath: Assets.images.generalImages.favImage2.path,
                 title: 'Pesquise Pokémons por região.',
                 description:
                     'Em breve será disponibilizado uma nova atualização para encontrar seus Pokémons através das regiões.\nFique ligado!',

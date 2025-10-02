@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
+import 'package:pokedex/gen/assets.gen.dart';
+import 'package:pokedex/shared/utils/helper/path_helper.dart';
 
 class PokemonTypeUtils {
   static List<PokemonType> _types = [];
@@ -29,6 +31,9 @@ class PokemonTypeUtils {
 
   /// Retorna o caminho da imagem para o tipo.
   static String getTypeImage(String? type) {
-    return 'assets/icons/pokemon_types/${type?.toLowerCase() ?? ''}.png';
+    final partialPath = AssetUtils.getPartialPath(
+      Assets.icons.pokemonTypes.bug.path,
+    );
+    return '$partialPath/${type?.toLowerCase() ?? ''}.png';
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/widgets/appbar/custom_appbar.dart';
 import 'package:pokedex/shared/widgets/badges/button_badge.dart';
 import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
@@ -23,10 +24,7 @@ class ProfileUnloggedAppbar extends StatelessWidget
                     'Mantenha sua Pokédex atualizada e participe desse mundo.',
                   ),
                 ),
-                Image.asset(
-                  'assets/images/onboarding_images/onboarding-3.png',
-                  height: 100,
-                ),
+                Assets.images.onboardingImages.onboarding3.image(height: 100),
               ],
             ),
             const SizedBox(height: 10),

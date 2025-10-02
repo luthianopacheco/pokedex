@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/splash/splash_controller.dart';
+import 'package:pokedex/gen/assets.gen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await precacheImage(
-        const AssetImage('assets/splash/splash-pokedex.png'),
+        AssetImage(Assets.splash.splashPokedex.path),
         context,
       );
       _controller.start(() => context.go('/onboarding'));
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: SlideTransition(
           position: _controller.animation,
-          child: Image.asset('assets/splash/splash-pokedex.png', width: 280),
+          child: Assets.splash.splashPokedex.image(width: 280),
         ),
       ),
     );
