@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/shared/utils/text/string_utils.dart';
 
 class BaseRowWidget extends StatelessWidget {
@@ -67,9 +68,9 @@ class BaseRowWidget extends StatelessWidget {
             Image.asset('assets/icons/general_icons/$iconName.png', height: 14),
             Text(
               label,
-              style: Theme.of(
-                context,
-              ).textTheme.labelSmall?.copyWith(color: Color(0x99000000)),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface.withAlpha(99),
+              ),
             ),
           ],
         ),
@@ -77,7 +78,7 @@ class BaseRowWidget extends StatelessWidget {
           width: 150,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
+            border: Border.all(color: AppColors.disabledColorLight),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(

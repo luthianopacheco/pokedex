@@ -6,12 +6,14 @@ class AttributeListWidget extends StatelessWidget {
   final String title;
   final bool showIcon;
   final BorderStyle borderStyle;
+  final Color? textColor;
   const AttributeListWidget({
     super.key,
     required this.list,
     required this.title,
     this.showIcon = true,
     this.borderStyle = BorderStyle.none,
+    this.textColor,
   });
 
   @override
@@ -33,6 +35,7 @@ class AttributeListWidget extends StatelessWidget {
           alignment: WrapAlignment.spaceEvenly,
           showIcon: showIcon,
           borderStyle: borderStyle,
+          textColor: textColor,
         ),
       ],
     );

@@ -15,6 +15,7 @@ dependencies:
 
   # http
   dio: ^5.8.0+1
+  connectivity_plus: ^7.0.0
 
   # cache
   hive: ^2.2.3
@@ -68,5 +69,4 @@ flutter:
     - assets/images/general_images/
     - assets/images/onboarding_images/
     - assets/splash/
-    - assets/app_prints/
     - assets/data/

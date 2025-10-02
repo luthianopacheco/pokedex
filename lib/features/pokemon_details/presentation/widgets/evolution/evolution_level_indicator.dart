@@ -16,7 +16,7 @@ class EvolutionLevelIndicator extends StatelessWidget {
             'Nível $minLevel',
             style: Theme.of(
               context,
-            ).textTheme.bodyMedium?.copyWith(color: Color(0xff173EA5)),
+            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.primary),
           ),
         ),
         SizedBox(height: 12),

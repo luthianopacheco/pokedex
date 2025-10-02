@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/profile/models/setting_item.dart';
 
 class SectionItem extends StatelessWidget {
@@ -14,7 +15,7 @@ class SectionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemTitleStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-      color: Colors.black,
+      color: Theme.of(context).colorScheme.onSurface,
       fontWeight: FontWeight.bold,
     );
 
@@ -28,7 +29,10 @@ class SectionItem extends StatelessWidget {
             onChanged: (value) => item.onTap?.call(),
           );
         } else if (item.onTap != null) {
-          trailingWidget = const Icon(Icons.chevron_right, color: Colors.grey);
+          trailingWidget = const Icon(
+            Icons.chevron_right,
+            color: AppColors.disabledColor,
+          );
         }
 
         return InkWell(

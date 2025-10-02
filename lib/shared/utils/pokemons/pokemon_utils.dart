@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
 
 class PokemonTypeUtils {
@@ -18,7 +19,7 @@ class PokemonTypeUtils {
 
   /// Retorna uma cor para o tipo, ou cor padrão
   static Color getColor(String? type) {
-    return getType(type)?.color ?? const Color(0xFFAAAAAA).withAlpha(0);
+    return getType(type)?.color ?? AppColors.transparent;
   }
 
   /// Retorna o label traduzido (ou original, se não encontrar)

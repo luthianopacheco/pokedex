@@ -142,10 +142,7 @@ flutter run
 
 
 ## 📸 Prints
-<img src="assets/app_prints/onboarding.gif" alt="Onboarding" height="500"/>
-<img src="assets/app_prints/pokemon-list-search.gif" alt="Pokemon List Search" height="500"/>
-<img src="assets/app_prints/pokemon-list-sort.gif" alt="Pokemon List Sort" height="500"/>
-<img src="assets/app_prints/pokemon-details.gif" alt="Pokemon Details" height="500"/>
+<img src="https://luthianopacheco.github.io/pokedex/assets/splash-screen.gif" alt="Splash Screen" height="500"/>   <img src="https://luthianopacheco.github.io/pokedex/assets/onboarding.gif" alt="Onboarding" height="500"/>   <img src="https://luthianopacheco.github.io/pokedex/assets/pokemon-list-search.gif" alt="Pokemon List Search" height="500"/>   <img src="https://luthianopacheco.github.io/pokedex/assets/pokemon-list-sort.gif" alt="Pokemon List Sort" height="500"/>   <img src="https://luthianopacheco.github.io/pokedex/assets/pokemon-details.gif" alt="Pokemon Details" height="500"/>
 
 ## 🧑‍💻 Autor
 Desenvolvido por: Luthiano Pacheco

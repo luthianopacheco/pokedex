@@ -37,8 +37,15 @@ class ScreenHelper {
       defaultTargetPlatform == TargetPlatform.linux;
 
   /// Verifica se é web desktop
-  bool get isWebDesktop => kIsWeb && MediaQuery.of(context).size.width > tabletMaxWidth;
+  bool get isWebDesktop =>
+      kIsWeb && MediaQuery.of(context).size.width > tabletMaxWidth;
 
   /// Verifica se é sistema iOS
   static bool isIOS() => defaultTargetPlatform == TargetPlatform.iOS;
+
+  /// Altura da tela do dispositivo
+  static double height(context) => MediaQuery.of(context).size.height;
+
+  /// Largura da tela do dispositivo
+  static double width(context) => MediaQuery.of(context).size.width;
 }

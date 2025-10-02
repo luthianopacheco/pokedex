@@ -38,7 +38,9 @@ class HomeRepositoryImpl implements IHomeRepository {
       debugPrint('Pokémons em cache: ${(await _cache.getAll()).length}}');
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao buscar lista de Pokémons');
+      throw Exception(
+        'Erro ao buscar lista de Pokémons.\nTente novamente mais tarde!',
+      );
     }
   }
 
@@ -49,7 +51,7 @@ class HomeRepositoryImpl implements IHomeRepository {
       return all;
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao buscar todos Pokémons em cache');
+      throw Exception('Erro ao buscar todos os Pokémons em cache');
     }
   }
 
@@ -102,7 +104,7 @@ class HomeRepositoryImpl implements IHomeRepository {
       return dataList.map((data) => data.toDomain()).toList();
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao carregar filtro: tipos');
+      throw Exception('Erro ao carregar filtro: Tipos');
     }
   }
 
@@ -120,7 +122,7 @@ class HomeRepositoryImpl implements IHomeRepository {
       return resultData.map((data) => data.toDomain()).toList();
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao carregar filtro: ordenação');
+      throw Exception('Erro ao carregar filtro: Ordenação');
     }
   }
 
@@ -192,7 +194,9 @@ class HomeRepositoryImpl implements IHomeRepository {
       return result.map((e) => e.id).toList();
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao carregar Pokémons filtrados');
+      throw Exception(
+        'Erro ao carregar Pokémons filtrados.\nTente novamente mais tarde!',
+      );
     }
   }
 }

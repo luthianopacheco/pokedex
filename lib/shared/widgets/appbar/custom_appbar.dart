@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? titleContent;
@@ -29,7 +30,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (bottomContent != null) bottomContent!,
-            const Divider(height: 1, thickness: 1, color: Color(0xFFE0E0E0)),
+            const Divider(
+              height: 1,
+              thickness: 1,
+              color: AppColors.disabledColor,
+            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/home/presentation/controllers/home_controller.dart';
 
 class CustomSearchField extends StatelessWidget {
@@ -27,9 +28,9 @@ class CustomSearchField extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: TextField(
             controller: controller,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Color(0xff000000)),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
@@ -46,15 +47,17 @@ class CustomSearchField extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50),
-                borderSide: const BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: AppColors.disabledColor),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50),
-                borderSide: const BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: AppColors.disabledColor),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50),
-                borderSide: const BorderSide(color: Colors.blue),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
               isDense: true,
             ),

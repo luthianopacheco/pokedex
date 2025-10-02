@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/pokemon_details/presentation/controllers/pokemon_details_controller.dart';
 import 'package:pokedex/features/pokemon_details/presentation/widgets/abilities_and_weaknesses/abilities_and_weaknesses.dart';
 import 'package:pokedex/features/pokemon_details/presentation/widgets/evolution/evolution_chain_widget.dart';
@@ -20,7 +21,7 @@ class DetailsContent extends StatelessWidget {
     if (pokemon == null) {
       return Column(
         children: [
-          DetailsAppbar(iconsColor: Colors.black),
+          DetailsAppbar(iconsColor: Theme.of(context).colorScheme.onSurface),
           Padding(
             padding: EdgeInsets.all(16),
             child: Center(
@@ -45,7 +46,7 @@ class DetailsContent extends StatelessWidget {
                 types: pokemon.types ?? [],
                 description: pokemon.description ?? '',
               ),
-              Divider(color: const Color.fromARGB(255, 220, 220, 220)),
+              Divider(color: AppColors.disabledColorLight),
               BaseStats(pokemon: pokemon),
               const SizedBox(height: 5),
               AbilitiesAndWeaknesses(

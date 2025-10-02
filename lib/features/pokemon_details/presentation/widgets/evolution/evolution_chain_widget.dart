@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/pokemon_details/domain/models/evolution.dart';
 import 'package:pokedex/features/pokemon_details/presentation/widgets/evolution/evolution_card.dart';
 import 'package:pokedex/features/pokemon_details/presentation/widgets/evolution/evolution_level_indicator.dart';
@@ -22,7 +23,7 @@ class EvolutionChainWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
+            border: Border.all(color: AppColors.disabledColorLight),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(

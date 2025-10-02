@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 import 'package:pokedex/shared/widgets/images/shader_image.dart';
 
@@ -39,7 +40,10 @@ class AnimatedPokemon extends StatelessWidget {
           ),
           child: ShaderImage(
             imagePath: PokemonTypeUtils.getTypeImage(type),
-            colors: [PokemonTypeUtils.getColor(type), Colors.white],
+            colors: [
+              PokemonTypeUtils.getColor(type),
+              AppColors.backgroundLight,
+            ],
             verticalPadding: 30,
           ),
         ),

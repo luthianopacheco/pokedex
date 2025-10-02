@@ -12,6 +12,7 @@ class PokemonTypesWidget extends StatelessWidget {
   final bool showText;
   final bool showIcon;
   final BorderStyle borderStyle;
+  final Color? textColor;
   const PokemonTypesWidget({
     super.key,
     required this.types,
@@ -23,6 +24,7 @@ class PokemonTypesWidget extends StatelessWidget {
     this.showText = true,
     this.showIcon = true,
     this.borderStyle = BorderStyle.none,
+    this.textColor,
   });
 
   @override
@@ -59,7 +61,7 @@ class PokemonTypesWidget extends StatelessWidget {
               child: Container(
                 height: 24,
                 width: 24,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child: Image.asset(PokemonTypeUtils.getTypeImage(type)),
@@ -72,7 +74,7 @@ class PokemonTypesWidget extends StatelessWidget {
               PokemonTypeUtils.getLabel(type) ?? '',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: color.contrastColor,
+                color: textColor ?? color.contrastColor,
               ),
             ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/shared/utils/color/color_utils.dart';
 import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
 import 'package:pokedex/shared/widgets/images/shader_image.dart';
@@ -41,7 +42,10 @@ class ImageContentCard extends StatelessWidget {
       child: Center(
         child: ShaderImage(
           imagePath: PokemonTypeUtils.getTypeImage(type),
-          colors: [PokemonTypeUtils.getColor(type.toLowerCase()), Colors.white],
+          colors: [
+            PokemonTypeUtils.getColor(type.toLowerCase()),
+            AppColors.backgroundLight,
+          ],
         ),
       ),
     );
@@ -65,7 +69,7 @@ class ImageContentCard extends StatelessWidget {
   //   return IconButton(
   //     icon: Image.asset('assets/icons/general_icons/fav-2-unselected.png'),
   //     onPressed: () {},
-  //     color: Colors.white,
+  //     color: Theme.of(context).colorScheme.onPrimary,
   //   );
   // }
 }

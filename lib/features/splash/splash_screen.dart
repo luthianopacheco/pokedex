@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/splash/splash_controller.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF000028),
+      backgroundColor: AppColors.backgroundSplashScreen,
       body: Center(
         child: SlideTransition(
           position: _controller.animation,

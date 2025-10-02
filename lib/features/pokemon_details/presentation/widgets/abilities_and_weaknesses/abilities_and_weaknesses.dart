@@ -21,6 +21,7 @@ class AbilitiesAndWeaknesses extends StatelessWidget {
           list: abilities.map((e) => e.capitalizeFirst()).toList(),
           showIcon: false,
           borderStyle: BorderStyle.solid,
+          textColor: Theme.of(context).colorScheme.onSurface,
         ),
         const SizedBox(height: 5),
         AttributeListWidget(title: 'Fraquezas', list: weaknesses),

@@ -92,7 +92,9 @@ class PokemonDetailsRepositoryImpl implements IPokemonDetailsRepository {
       );
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception('Erro ao buscar lista de Pokémons');
+      throw Exception(
+        'Erro ao buscar detalhes do Pokémon.\nTente novamente mais tarde!',
+      );
     }
   }
 

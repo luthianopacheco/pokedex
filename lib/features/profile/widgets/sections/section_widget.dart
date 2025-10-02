@@ -15,9 +15,9 @@ class SectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sectionTitleStyle = Theme.of(
-      context,
-    ).textTheme.titleSmall?.copyWith(color: Colors.black);
+    final sectionTitleStyle = Theme.of(context).textTheme.titleSmall?.copyWith(
+      color: Theme.of(context).colorScheme.onSurface,
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 24),
@@ -25,7 +25,6 @@ class SectionWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(sectionTitle, style: sectionTitleStyle),
-
           ...items.map(
             (item) =>
                 SectionItem(item: item, showSwitchButton: showSwitchButton),

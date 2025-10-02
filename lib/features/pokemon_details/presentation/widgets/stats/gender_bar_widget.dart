@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 
 class GenderBarWidget extends StatelessWidget {
   final double malePercent;
@@ -11,24 +12,22 @@ class GenderBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textDarkStyle = Theme.of(context).textTheme.labelSmall?.copyWith(
+      color: Theme.of(context).colorScheme.onSurface.withAlpha(99),
+    );
+    
     return Column(
       children: [
-        Text(
-          'GÊNERO',
-          textAlign: TextAlign.center,
-          style: Theme.of(
-            context,
-          ).textTheme.labelSmall?.copyWith(color: Color(0x99000000)),
-        ),
+        Text('GÊNERO', textAlign: TextAlign.center, style: textDarkStyle),
         const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: LinearProgressIndicator(
             value: malePercent / 100,
             backgroundColor: malePercent + femalePercent > 0
-                ? Colors.pink.shade100
-                : Theme.of(context).disabledColor,
-            color: Colors.blue,
+                ? AppColors.primaryPink
+                : AppColors.disabledColor,
+            color: AppColors.secondaryBlue,
             minHeight: 10,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -42,24 +41,14 @@ class GenderBarWidget extends StatelessWidget {
                 spacing: 3,
                 children: [
                   Icon(Icons.male_rounded, size: 16),
-                  Text(
-                    '$malePercent%',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall?.copyWith(color: Color(0x99000000)),
-                  ),
+                  Text('$malePercent%', style: textDarkStyle),
                 ],
               ),
               Row(
                 spacing: 3,
                 children: [
                   Icon(Icons.female_rounded, size: 16),
-                  Text(
-                    '$femalePercent%',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall?.copyWith(color: Color(0x99000000)),
-                  ),
+                  Text('$femalePercent%', style: textDarkStyle),
                 ],
               ),
             ],

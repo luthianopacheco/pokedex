@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PageviewIndicatorWidget extends StatelessWidget {
@@ -19,13 +20,13 @@ class PageviewIndicatorWidget extends StatelessWidget {
         activeDotDecoration: DotDecoration(
           width: 32,
           height: 10,
-          color: const Color(0xff173EA5),
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(8),
         ),
         dotDecoration: DotDecoration(
           width: 8,
           height: 8,
-          color: Color(0xffBDBDBD),
+          color: AppColors.disabledColor,
           borderRadius: BorderRadius.circular(8),
         ),
         spacing: 8.0,

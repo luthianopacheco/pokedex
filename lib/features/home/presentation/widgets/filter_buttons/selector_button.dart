@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/home/domain/models/selector_item.dart';
 import 'package:pokedex/shared/utils/color/color_utils.dart';
 
@@ -24,13 +25,13 @@ class SelectorButton extends StatelessWidget {
         onPressed: () => _showModal(context),
         icon: Icon(
           CupertinoIcons.chevron_down,
-          color: selectedItem?.color.contrastColor ?? Color(0xffFAFAFA),
+          color: selectedItem?.color.contrastColor ?? Theme.of(context).colorScheme.onPrimary,
         ),
         iconAlignment: IconAlignment.end,
         label: Text(
           selectedItem?.label ?? 'Selecione',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: selectedItem?.color.contrastColor ?? Color(0xffFAFAFA),
+            color: selectedItem?.color.contrastColor ?? Theme.of(context).colorScheme.onPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -53,7 +54,7 @@ class SelectorButton extends StatelessWidget {
               width: 40,
               height: 5,
               decoration: BoxDecoration(
-                color: Colors.grey[400],
+                color: AppColors.disabledColor,
                 borderRadius: BorderRadius.circular(100),
               ),
             ),

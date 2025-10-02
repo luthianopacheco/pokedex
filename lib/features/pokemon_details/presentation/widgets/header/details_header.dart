@@ -13,7 +13,7 @@ class DetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = pokemon.types?.first == null
-        ? Colors.black
+        ? Theme.of(context).colorScheme.onSurface
         : PokemonTypeUtils.getColor(pokemon.types?.first).contrastColor;
 
     return Column(

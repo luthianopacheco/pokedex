@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/shared/widgets/buttons/custom_filled_button.dart';
+import 'package:pokedex/shared/screens/error_screen.dart';
 import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
 
 class AsyncStatusHandler extends StatelessWidget {
   final bool isLoading;
   final bool hasError;
+  final String? errorTitle;
   final String? errorMessage;
   final VoidCallback onRetry;
   final Widget child;
@@ -16,46 +17,23 @@ class AsyncStatusHandler extends StatelessWidget {
     required this.errorMessage,
     required this.onRetry,
     required this.child,
+    this.errorTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Expanded(
-        child: Center(child: SizedBox(child: PokeballLoadingIndicator())),
-      );
+      return const Expanded(child: Center(child: PokeballLoadingIndicator()));
     }
 
     if (hasError) {
-      return Expanded(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildErrorMessge(context, errorMessage ?? 'Erro inesperado'),
-              const SizedBox(height: 20),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 300),
-                child: CustomButton(
-                  isFilled: false,
-                  onPressed: onRetry,
-                  textWidget: const Text('Tentar novamente'),
-                ),
-              ),
-            ],
-          ),
-        ),
+      return ErrorScreen(
+        errorTitle: errorTitle,
+        errorMessage: errorMessage,
+        onRetry: onRetry,
       );
     }
 
     return child;
-  }
-
-  Widget _buildErrorMessge(BuildContext context, String message) {
-    return Text(
-      message,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.red),
-      textAlign: TextAlign.center,
-    );
   }
 }
