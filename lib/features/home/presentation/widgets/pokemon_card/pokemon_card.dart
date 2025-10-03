@@ -13,12 +13,15 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildCard(
       child: InkWell(
-        onTap: () => context.go('/pokemon_details', extra: pokemon.id),
+        onTap: () => context.goNamed(
+          'pokemon_details',
+          pathParameters: {'id': pokemon.id.toString()},
+        ),
         child: Row(
           children: [
             TextContentCard(pokemon: pokemon),
             ImageContentCard(
-              imageUrl: pokemon.imageUrl ,
+              imageUrl: pokemon.imageUrl,
               type: pokemon.types.first,
             ),
           ],

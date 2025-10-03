@@ -7,13 +7,13 @@ class ErrorScreen extends StatelessWidget {
   final String? errorTitle;
   final String? errorMessage;
   final Widget? buttonTitleWidget;
-  final VoidCallback onRetry;
+  final VoidCallback? onRetry;
   const ErrorScreen({
     super.key,
     this.errorTitle,
     this.buttonTitleWidget = const Text('Tentar novamente'),
     this.errorMessage,
-    required this.onRetry,
+    this.onRetry,
   });
 
   @override
@@ -44,14 +44,15 @@ class ErrorScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 5),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 300),
-                  child: CustomButton(
-                    isFilled: false,
-                    onPressed: onRetry,
-                    textWidget: buttonTitleWidget,
+                if (onRetry != null)
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 300),
+                    child: CustomButton(
+                      isFilled: false,
+                      onPressed: onRetry!,
+                      textWidget: buttonTitleWidget,
+                    ),
                   ),
-                ),
               ],
             ),
           ),

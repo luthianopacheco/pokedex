@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       isLoading: _controller.store.isLoading,
                       hasError: _controller.store.hasError,
                       errorMessage: _controller.store.errorMessage,
+                      wrapLoadingWithExpanded: true,
                       onRetry: () {
                         _controller.store.clearError();
                         _controller.init();

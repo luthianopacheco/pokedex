@@ -39,6 +39,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   google_fonts: ^6.2.1
   smooth_page_indicator: ^1.2.1
+  device_frame: ^1.4.0
   
   # icons
   cupertino_icons: ^1.0.8
@@ -72,5 +73,6 @@ flutter:
     - assets/images/authentication_images/
     - assets/images/general_images/
     - assets/images/onboarding_images/
+    - assets/images/background/
     - assets/splash/
     - assets/data/

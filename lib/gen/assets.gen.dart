@@ -44,6 +44,10 @@ class $AssetsImagesGen {
   $AssetsImagesAuthenticationImagesGen get authenticationImages =>
       const $AssetsImagesAuthenticationImagesGen();
 
+  /// Directory path: assets/images/background
+  $AssetsImagesBackgroundGen get background =>
+      const $AssetsImagesBackgroundGen();
+
   /// Directory path: assets/images/general_images
   $AssetsImagesGeneralImagesGen get generalImages =>
       const $AssetsImagesGeneralImagesGen();
@@ -297,6 +301,17 @@ class $AssetsImagesAuthenticationImagesGen {
   /// List of all assets
   List<AssetGenImage> get values =>
       [loginDone, loginStart, registerDone, registerStart];
+}
+
+class $AssetsImagesBackgroundGen {
+  const $AssetsImagesBackgroundGen();
+
+  /// File path: assets/images/background/web-desktop.png
+  AssetGenImage get webDesktop =>
+      const AssetGenImage('assets/images/background/web-desktop.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [webDesktop];
 }
 
 class $AssetsImagesGeneralImagesGen {

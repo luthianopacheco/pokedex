@@ -9,6 +9,7 @@ class AsyncStatusHandler extends StatelessWidget {
   final String? errorMessage;
   final VoidCallback onRetry;
   final Widget child;
+  final bool wrapLoadingWithExpanded;
 
   const AsyncStatusHandler({
     super.key,
@@ -18,12 +19,17 @@ class AsyncStatusHandler extends StatelessWidget {
     required this.onRetry,
     required this.child,
     this.errorTitle,
+    this.wrapLoadingWithExpanded = false,
   });
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Expanded(child: Center(child: PokeballLoadingIndicator()));
+      final loading = Center(child: PokeballLoadingIndicator());
+      if (wrapLoadingWithExpanded) {
+        return Expanded(child: loading);
+      }
+      return loading;
     }
 
     if (hasError) {

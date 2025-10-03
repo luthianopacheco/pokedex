@@ -15,7 +15,10 @@ class EvolutionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = ScreenHelper.width(context);
     return InkWell(
-      onTap: () => context.go('/pokemon_details', extra: evolution.id),
+      onTap: () => context.goNamed(
+        'pokemon_details',
+        pathParameters: {'id': evolution.id.toString()},
+      ),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.disabledColorLight),

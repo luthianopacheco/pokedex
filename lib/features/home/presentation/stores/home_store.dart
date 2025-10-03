@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pokedex/features/home/domain/models/selector_item.dart';
-import 'package:pokedex/shared/domain/models/pokemon.dart'; 
+import 'package:pokedex/shared/domain/models/pokemon.dart';
 import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
 import 'package:pokedex/features/home/domain/models/order_options.dart';
 
@@ -52,7 +52,7 @@ abstract class HomeStoreBase with Store {
       selectedType != null &&
       selectedType!.type != 'all' &&
       filteredNames.isNotEmpty;
-  
+
   @action
   void setFilters(List<PokemonType> types, List<OrderOptions> orders) {
     pokemonTypes = types;
@@ -85,12 +85,12 @@ abstract class HomeStoreBase with Store {
   void setSelectedOrderItem(SelectorItem item) {
     selectedOrder = item as OrderOptions;
   }
-  
+
   @action
   void setFilteredIds(List<int> ids) {
     filteredIds = ids;
   }
-  
+
   @action
   void setFilteredNames(List<String> names) {
     filteredNames = names;
@@ -108,7 +108,7 @@ abstract class HomeStoreBase with Store {
 
   @action
   void setLoading(bool value) => isLoading = value;
-  
+
   @action
   void setLoadingMore(bool value) => isLoadingMore = value;
 }
