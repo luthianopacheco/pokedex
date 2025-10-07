@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
+import 'package:pokedex/core/stores/app_error_store.dart';
 import 'package:pokedex/core/stores/connectivity_store.dart';
 import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/utils/helper/screen_helper.dart';
@@ -11,15 +11,25 @@ import 'package:pokedex/shared/widgets/loading/pokeball_loading_indicator.dart';
 class OfflineErrorScreen extends StatelessWidget {
   OfflineErrorScreen({super.key});
   final _connectivityStore = getIt<ConnectivityStore>();
+  final _appErrorStore = getIt<AppErrorStore>();
 
   Future<void> _checkAndNavigate(BuildContext context) async {
     _connectivityStore.setCheckingStatus(true);
-    if (_connectivityStore.isConnected) {
-      if (context.mounted) {
-        context.go('/');
-      } else {
-        _connectivityStore.setCheckingStatus(false);
+    try {
+      if (_connectivityStore.isConnected) {
+        final retry = _appErrorStore.globalErrorRetryCallback;
+
+        if (retry != null) {
+          retry();
+        } else {
+          _appErrorStore.clearGlobalError();
+        }
       }
+    } catch (e) {
+      debugPrint('Erro durante a checagem e navegação: $e');
+    } finally {
+      await Future.delayed(Duration(seconds: 1));
+      _connectivityStore.setCheckingStatus(false);
     }
   }
 
@@ -51,7 +61,7 @@ class OfflineErrorScreen extends StatelessWidget {
                 child: Observer(
                   builder: (context) {
                     return _connectivityStore.isChecking
-                        ? PokeballLoadingIndicator()
+                        ? Center(child: PokeballLoadingIndicator())
                         : CustomButton(
                             isFilled: false,
                             textWidget: const Text('Tentar Novamente'),

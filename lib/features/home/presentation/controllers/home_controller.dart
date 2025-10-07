@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:injectable/injectable.dart';
+import 'package:pokedex/core/stores/app_error_store.dart';
 import 'package:pokedex/features/home/domain/models/selector_item.dart';
 import 'package:pokedex/features/home/domain/use_cases/fetch_pokemon_page_usecase.dart';
 import 'package:pokedex/features/home/domain/use_cases/get_filtered_pokemon_ids_usecase.dart';
@@ -7,7 +8,7 @@ import 'package:pokedex/features/home/domain/use_cases/get_pokemon_names_by_type
 import 'package:pokedex/features/home/domain/use_cases/initialize_pokemon_data_usecase.dart';
 import 'package:pokedex/features/home/domain/use_cases/load_filter_options_usecase.dart';
 import 'package:pokedex/features/home/presentation/stores/home_store.dart';
-import 'package:pokedex/shared/utils/pokemons/pokemon_utils.dart';
+import 'package:pokedex/shared/utils/pokemons/pokemon_utils_store.dart';
 
 @lazySingleton
 class HomeController {
@@ -16,7 +17,9 @@ class HomeController {
   final GetFilteredPokemonIdsUseCase _getFilteredIdsUC;
   final GetPokemonNamesByTypeUseCase _getPokemonNamesByTypeUC;
   final InitializePokemonDataUseCase _initializePokemonDataUC;
-  final LoadFilterOptionsUseCase _loadFiltersUC;
+  final LoadFilterOptionsUseCase _loadOrderOptionsUC;
+  final PokemonTypeStore _typeStore;
+  final AppErrorStore _appErrorStore;
 
   HomeController(
     this.store,
@@ -24,7 +27,9 @@ class HomeController {
     this._getFilteredIdsUC,
     this._getPokemonNamesByTypeUC,
     this._initializePokemonDataUC,
-    this._loadFiltersUC,
+    this._loadOrderOptionsUC,
+    this._typeStore,
+    this._appErrorStore,
   );
 
   final int _pageSize = 20;
@@ -34,11 +39,10 @@ class HomeController {
   Future<void> init() async {
     try {
       store.setLoading(true);
-      store.clearError();
 
-      final filters = await _loadFiltersUC.execute();
-      store.setFilters(filters.types, filters.orders);
-      PokemonTypeUtils.setTypes(filters.types);
+      final orders = await _loadOrderOptionsUC.execute();
+      final types = _typeStore.types.toList();
+      store.setFilters(types, orders);
 
       if (!store.isInitialized) {
         await _initializePokemonDataUC.execute();
@@ -46,8 +50,13 @@ class HomeController {
       }
 
       await _refreshList();
+      _appErrorStore.clearGlobalError();
     } catch (e) {
-      store.setError(e.toString().split('Exception:').last);
+      _appErrorStore.setGlobalError(
+        'Erro inesperado',
+        e.toString(),
+        onRetry: () async => await init(),
+      );
     } finally {
       store.setLoading(false);
     }
@@ -62,7 +71,7 @@ class HomeController {
       try {
         await _refreshList();
       } catch (e) {
-        store.setError(e.toString().split('Exception:').last);
+        _appErrorStore.setGlobalError('Erro inesperado!', e.toString());
       } finally {
         store.setLoading(false);
       }
@@ -83,7 +92,7 @@ class HomeController {
 
       await _refreshList();
     } catch (e) {
-      store.setError(e.toString().split('Exception:').last);
+      _appErrorStore.setGlobalError('Erro inesperado!', e.toString());
     } finally {
       store.setLoading(false);
     }
@@ -95,7 +104,7 @@ class HomeController {
       store.setSelectedOrderItem(item);
       await _refreshList();
     } catch (e) {
-      store.setError(e.toString().split('Exception:').last);
+      _appErrorStore.setGlobalError('Erro inesperado!', e.toString());
     } finally {
       store.setLoading(false);
     }
@@ -117,7 +126,7 @@ class HomeController {
 
       await _loadNextPage(isInitialLoad: true);
     } catch (e) {
-      store.setError(e.toString().split('Exception:').last);
+      _appErrorStore.setGlobalError('Erro inesperado!', e.toString());
     }
   }
 
@@ -132,7 +141,8 @@ class HomeController {
       _currentPage++;
       await _loadNextPage(isInitialLoad: false);
     } catch (e) {
-      store.setError(e.toString().split('Exception:').last);
+      _appErrorStore.setGlobalError('Erro inesperado!', e.toString());
+      _currentPage--;
     } finally {
       store.setLoadingMore(false);
     }

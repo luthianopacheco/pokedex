@@ -74,13 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context) {
                     return AsyncStatusHandler(
                       isLoading: _controller.store.isLoading,
-                      hasError: _controller.store.hasError,
-                      errorMessage: _controller.store.errorMessage,
                       wrapLoadingWithExpanded: true,
-                      onRetry: () {
-                        _controller.store.clearError();
-                        _controller.init();
-                      },
                       child: PokemonList(
                         controller: _controller,
                         scrollController: _scrollController,

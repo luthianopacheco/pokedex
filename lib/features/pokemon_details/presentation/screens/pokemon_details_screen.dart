@@ -7,25 +7,19 @@ import 'package:pokedex/shared/widgets/status/async_status_handler.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   final int id;
-  PokemonDetailsScreen({super.key, required this.id});
-  final _controller = getIt<PokemonDetailsController>();
+  const PokemonDetailsScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
+    final controller = getIt<PokemonDetailsController>();
     return FutureBuilder(
-      future: _controller.getPokemonDetails(id: id),
+      future: controller.getPokemonDetails(id: id),
       builder: (context, snapshot) {
         return Scaffold(
           body: Observer(
             builder: (context) {
               return AsyncStatusHandler(
-                isLoading: _controller.store.isLoading,
-                hasError: _controller.store.hasError,
-                errorMessage: _controller.store.errorMessage,
-                onRetry: () {
-                  _controller.store.clearError();
-                  _controller.getPokemonDetails(id: id);
-                },
+                isLoading: controller.store.isLoading,
                 child: SingleChildScrollView(child: DetailsContent()),
               );
             },

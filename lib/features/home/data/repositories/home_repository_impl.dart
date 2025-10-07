@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pokedex/features/home/data/models/order_options_data.dart';
 import 'package:pokedex/features/home/domain/models/order_options.dart';
-import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
 import 'package:pokedex/features/home/domain/repositories/i_home_repository.dart';
 import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/data/models/pokemon_data.dart';
-import 'package:pokedex/features/home/data/models/pokemon_type_data.dart';
-import 'package:pokedex/features/home/data/datasources/pokemon_cache_service.dart';
+import 'package:pokedex/core/services/pokemon_cache_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:pokedex/shared/domain/models/pokemon.dart';
@@ -60,12 +58,21 @@ class HomeRepositoryImpl implements IHomeRepository {
   @override
   Future<void> getAndCacheMissingDetails(List<Pokemon> list) async {
     final listData = list.map((p) => p.toData()).toList();
-    for (var entry in listData.where((e) => !e.isBasicFetched)) {
+
+    final needDetails = listData.where((e) => !e.isBasicFetched).toList();
+    if (needDetails.isEmpty) return;
+
+    for (var entry in needDetails) {
       try {
         final response = await _dio.get(entry.url);
         final updated = entry.copyWithBasics(response.data);
         await _cache.save(updated);
-      } catch (_) {
+      } catch (e) {
+        if (e is DioException && e.type == DioExceptionType.connectionError) {
+          throw Exception(
+            'Sem conexão com a internet.\nConecte-se e tente novamente!',
+          );
+        }
         continue;
       }
     }
@@ -87,25 +94,6 @@ class HomeRepositoryImpl implements IHomeRepository {
     } catch (e) {
       debugPrint(e.toString());
       throw Exception('Erro ao buscar Pokémons por IDs');
-    }
-  }
-
-  /// Carrega as opções de tipos de pokémons dos assets
-  @override
-  Future<List<PokemonType>> loadTypeFilterOptions() async {
-    try {
-      final path = Assets.data.pokemonTypes;
-      final data = await rootBundle.loadString(path);
-      final jsonResult = json.decode(data) as List<dynamic>;
-
-      final dataList = jsonResult
-          .map((e) => PokemonTypeData.fromJson(e))
-          .toList();
-
-      return dataList.map((data) => data.toDomain()).toList();
-    } catch (e) {
-      debugPrint(e.toString());
-      throw Exception('Erro ao carregar filtro: Tipos');
     }
   }
 

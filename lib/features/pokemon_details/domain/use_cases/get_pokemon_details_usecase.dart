@@ -11,7 +11,6 @@ class GetPokemonDetailsUseCase {
 
   Future<void> execute({required int id}) async {
     _store.setLoading(true);
-    _store.clearError();
 
     try {
       final result = await _repository.getAndCachePokemonDetails(id: id);
@@ -22,7 +21,6 @@ class GetPokemonDetailsUseCase {
         _store.setEvolutionChain(result.evolutionChain!);
       }
     } catch (e) {
-      _store.setError(e.toString().split('Exception:').last.trim());
       rethrow;
     } finally {
       _store.setLoading(false);

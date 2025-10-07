@@ -30,9 +30,6 @@ abstract class HomeStoreBase with Store {
   bool isLoadingMore = false;
 
   @observable
-  String? errorMessage;
-
-  @observable
   bool isInitialized = false;
 
   @observable
@@ -43,9 +40,6 @@ abstract class HomeStoreBase with Store {
 
   List<PokemonType> pokemonTypes = [];
   List<OrderOptions> orderOptions = [];
-
-  @computed
-  bool get hasError => errorMessage != null && errorMessage!.isNotEmpty;
 
   @computed
   bool get isTypeFilterActive =>
@@ -94,16 +88,6 @@ abstract class HomeStoreBase with Store {
   @action
   void setFilteredNames(List<String> names) {
     filteredNames = names;
-  }
-
-  @action
-  void clearError() {
-    errorMessage = null;
-  }
-
-  @action
-  void setError(String message) {
-    errorMessage = message;
   }
 
   @action

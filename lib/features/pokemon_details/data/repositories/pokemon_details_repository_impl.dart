@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pokedex/features/home/data/datasources/pokemon_cache_service.dart';
+import 'package:pokedex/core/services/pokemon_cache_service.dart';
 import 'package:pokedex/features/pokemon_details/data/models/evolution_data.dart';
 import 'package:pokedex/features/pokemon_details/data/models/evolution_chain_data.dart';
 import 'package:pokedex/features/pokemon_details/domain/repositories/i_pokemon_details_repository.dart';
 import 'package:pokedex/features/pokemon_details/domain/models/pokemon_with_evolutions.dart';
-import 'package:pokedex/features/pokemon_details/data/datasources/evolutions_cache_service.dart';
+import 'package:pokedex/core/services/evolutions_cache_service.dart';
 import 'package:pokedex/shared/data/models/pokemon_data.dart';
 
 @LazySingleton(as: IPokemonDetailsRepository)

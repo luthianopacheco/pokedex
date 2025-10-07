@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SkipButtonWidget extends StatelessWidget {
-  final String pathTo;
-  const SkipButtonWidget({super.key, required this.pathTo});
+  final VoidCallback onTap;
+  const SkipButtonWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go(pathTo),
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(right: 16),
         child: Row(

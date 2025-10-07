@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:pokedex/core/dependency_injection/injectable.dart';
 import 'package:pokedex/core/theme/app_colors.dart';
 import 'package:pokedex/features/home/domain/models/pokemon_type.dart';
 import 'package:pokedex/gen/assets.gen.dart';
 import 'package:pokedex/shared/utils/helper/path_helper.dart';
+import 'package:pokedex/shared/utils/pokemons/pokemon_utils_store.dart';
 
 class PokemonTypeUtils {
-  static List<PokemonType> _types = [];
+  static final _typeStore = getIt<PokemonTypeStore>();
 
-  static void setTypes(List<PokemonType> types) {
-    _types = types.toSet().toList();
+  /// Carrega os tipos
+  static Future<void> init() async {
+    await _typeStore.loadTypes();
   }
 
   /// Busca o tipo (label e cor) correspondente a uma string do tipo
   static PokemonType? getType(String? type) {
-    return _types.firstWhereOrNull(
+    if (_typeStore.types.isEmpty) return null;
+
+    return _typeStore.types.firstWhereOrNull(
       (t) => t.type.toLowerCase() == type?.toLowerCase(),
     );
   }

@@ -18,12 +18,6 @@ abstract class PokemonDetailsStoreBase with Store {
   @observable
   bool isLoading = false;
 
-  @observable
-  String? errorMessage;
-
-  @computed
-  bool get hasError => errorMessage != null && errorMessage!.isNotEmpty;
-
   @action
   void setPokemon(PokemonData value) => pokemon = value;
 
@@ -32,10 +26,4 @@ abstract class PokemonDetailsStoreBase with Store {
 
   @action
   void setLoading(bool value) => isLoading = value;
-
-  @action
-  void setError(String? message) => errorMessage = message;
-
-  @action
-  void clearError() => errorMessage = null;
 }

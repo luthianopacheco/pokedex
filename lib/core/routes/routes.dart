@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/core/dependency_injection/injectable.dart';
 import 'package:pokedex/core/routes/screen_transitions.dart';
+import 'package:pokedex/core/services/general_settings_cache_service.dart';
+import 'package:pokedex/core/stores/app_error_store.dart';
 import 'package:pokedex/core/stores/connectivity_store.dart';
 import 'package:pokedex/features/favorites/screens/fav_not_logged_screen.dart';
 import 'package:pokedex/features/onboarding/screens/onboarding_main_screen.dart';
@@ -13,32 +15,58 @@ import 'package:pokedex/shared/layout/mobile_layout.dart';
 import 'package:pokedex/shared/layout/mobile_mask_for_desktop.dart';
 import 'package:pokedex/shared/screens/error_screen.dart';
 import 'package:pokedex/shared/screens/offline_error_screen.dart';
+import 'package:pokedex/shared/utils/helper/route_refresh.dart';
 
 class Routes {
+  static final routeRefresh = getIt<RouteRefresh>();
   static final appRoutes = GoRouter(
     initialLocation: '/splash',
-    redirect: (context, state) {
+    refreshListenable: routeRefresh,
+    redirect: (context, state) async {
+      final generalSettings = getIt<GeneralSettingsCacheService>();
+      final appErrorStore = getIt<AppErrorStore>();
       final connectivityStore = getIt<ConnectivityStore>();
 
-      final bool isConnected = connectivityStore.isConnected;
-      final bool offlinePathMatched = state.matchedLocation == '/no_internet';
+      final hasGlobalError = appErrorStore.globalErrorMessage != null;
+      final isErrorRoute =
+          state.matchedLocation.contains('/error') ||
+          state.matchedLocation.contains('/no_internet');
 
-      final List<String> availableOfflinePaths = [
-        '/splash',
-        '/onboarding',
-        '/no-internet',
-      ];
+      if (hasGlobalError && !isErrorRoute) {
+        final isConnectionError =
+            !connectivityStore.isConnected ||
+            (appErrorStore.globalErrorMessage?.contains('conexão') ?? false);
 
-      final bool isAvailable = availableOfflinePaths.contains(
-        state.matchedLocation,
-      );
-      if (!isConnected && !isAvailable) {
-        return '/no-internet';
+        final targetPath = state.matchedLocation;
+        final encoded = Uri.encodeComponent(targetPath);
+
+        if (targetPath == '/') {
+          return isConnectionError ? '/no_internet' : '/error';
+        }
+
+        return isConnectionError
+            ? '/no_internet?from=$encoded'
+            : '/error?from=$encoded';
       }
 
-      if (isConnected && offlinePathMatched) {
+      if (hasGlobalError && isErrorRoute) return null;
+
+      if (!hasGlobalError && isErrorRoute) {
+        final fromPath = state.uri.queryParameters['from'];
+
+        if (fromPath != null) {
+          return Uri.decodeComponent(fromPath);
+        }
+
         return '/';
       }
+
+      final hasSeenOnboarding = await generalSettings.hasSeenOnboarding;
+      final isOnboardingRoute =
+          state.matchedLocation == '/onboarding' ||
+          state.matchedLocation == '/splash';
+
+      if (hasSeenOnboarding && isOnboardingRoute) return '/';
 
       return null;
     },
@@ -60,22 +88,22 @@ class Routes {
               child: OnboardingMainScreen(),
             ),
           ),
+          GoRoute(
+            path: '/no_internet',
+            name: 'no_internet',
+            builder: (context, state) => OfflineErrorScreen(),
+          ),
+          GoRoute(
+            path: '/error',
+            name: 'error',
+            builder: (context, state) => ErrorScreen(),
+          ),
           ShellRoute(
             pageBuilder: (context, state, child) => ScreenTransitions.slideUpIn(
               state: state,
               child: MobileLayout(mobileBody: child),
             ),
             routes: [
-              GoRoute(
-                path: '/no_internet',
-                name: 'no_internet',
-                builder: (context, state) => OfflineErrorScreen(),
-              ),
-              GoRoute(
-                path: '/error',
-                name: 'error',
-                builder: (context, state) => OfflineErrorScreen(),
-              ),
               GoRoute(
                 path: '/',
                 name: 'home',
@@ -90,13 +118,9 @@ class Routes {
                       final id = int.tryParse(idString ?? '');
 
                       if (id == null || id <= 0) {
-                        return NoTransitionPage(
-                          child: ErrorScreen(
-                            errorMessage: 'ID do Pokémon inválido.',
-                          ),
-                        );
+                        return NoTransitionPage(child: ErrorScreen());
                       }
-                      
+
                       return NoTransitionPage(
                         child: PokemonDetailsScreen(id: id),
                       );

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pokedex/core/dependency_injection/injectable.dart';
+import 'package:pokedex/core/services/general_settings_cache_service.dart';
 import 'package:pokedex/features/onboarding/widgets/onboarding_content_widget.dart';
 import 'package:pokedex/features/onboarding/widgets/skip_button_widget.dart';
 import 'package:pokedex/gen/assets.gen.dart';
@@ -11,10 +14,20 @@ class OnboardingAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final generalSettings = getIt<GeneralSettingsCacheService>();
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox(),
-        actions: [SkipButtonWidget(pathTo: '/')],
+        actions: [
+          SkipButtonWidget(
+            onTap: () async {
+              await generalSettings.setOnboardingSeen();
+              if (context.mounted) {
+                return context.go('/');
+              }
+            },
+          ),
+        ],
       ),
       body: Center(
         child: SizedBox(

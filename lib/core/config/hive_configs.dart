@@ -20,5 +20,9 @@ class HiveConfigs {
     if (!Hive.isBoxOpen('evolution_chain_box')) {
       await Hive.openBox<EvolutionChainData>('evolution_chain_box');
     }
+
+    if (!Hive.isBoxOpen('general_settings_box')) {
+      await Hive.openBox('general_settings_box');
+    }
   }
 }
